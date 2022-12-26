@@ -86,6 +86,7 @@ class App:
             elif self._setEndPosMode:
                 self._setEndPosMode = False
                 self.map.setEndPos(cords)
+            
 
         elif ev.type == pygame.MOUSEMOTION:
             if self.mouseIsPressed and self.editMode:
@@ -154,7 +155,7 @@ class App:
             
     def main(self):     
         bg = 0, 0, 0
-        (self.map, self.robot) = MapLoader.fromJson("maps/m03.json")
+        (self.map, self.robot) = MapLoader.fromJson("maps/m02.json")
 
         self._recalcWindowSize()
         mainClock = pygame.time.Clock()
