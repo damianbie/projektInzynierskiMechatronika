@@ -10,12 +10,12 @@
 
 \documentclass[12pt,twoside]{article}
 
-\usepackage{weiiszablon}
+\usepackage{raport}
 
 \author{Damian Bielecki}
 
 % np. EF-123456, EN-654321, ...
-\studentID{EF-163461}
+\studentID{ME-163461}
 \title{Implementacja sterowania hierarchicznego mobilnym robotem kołowym z wykorzystaniem języka Python}
 \titleEN{Temat pracy po angielsku}
 
@@ -46,37 +46,31 @@
 
 % spis treści
 \tableofcontents
-Przegląd literatury dotyczącej algorytmu A*
-Implementacja algorytmu A* w języku Python. 
-Integracja implementacji algorytmu A* ze środowiskiem symulacyjnym.
-Testowanie przyjętych rozwiązań na obiekcie rzeczywistym.
 \clearpage
 \blankpage
 
-\include{pages/wstep/introduction}
+\include{pages/wstep/wstep}
 
-\include{pages/wstep/literatura}
+\include{pages/literatura/literatura}
 
-\include{pages/wstep/istniejaceRozwiazania}
+\include{pages/algorytm/algorytm}
 
-\include{pages/srodowisko/opisSrodowiska}
+\include{pages/implementacja/implementacja}
 
 \include{pages/robot/robot}
+	
+\include{pages/testy/testy}
 
 \clearpage
-
+	
 \addcontentsline{toc}{section}{Literatura}
-
+	
 \begin{thebibliography}{4}
-	\bibitem{str} http://weii.portal.prz.edu.pl/pl/materialy-do-pobrania. Dostęp 5.01.2015.
-	\bibitem{Jakubczyk1997} Jakubczyk T., Klette A.: Pomiary w akustyce. WNT, Warszawa 1997.
-	\bibitem{Barski2011} Barski S.: Modele transmitancji. Elektronika praktyczna, nr 7/2011, str. 15-18.
-	\bibitem{dokum} Czujnik S200. Dokumentacja techniczno-ruchowa. Lumel, Zielona Góra, 2001.
-	\bibitem{Pawluk2001} Pawluk K.: Jak pisać teksty techniczne poprawnie, Wiadomości Elektrotechniczne, Nr 12, 2001, str. 513-515.
+	\bibitem{dokESP32} https://docs.espressif.com/projects/esp-idf/en/latest/esp32/get-started/index.html. Dostęp 04.01.2023.
+		
 \end{thebibliography}
-
+	
 \clearpage
-
+	
 \makesummary
-
 \end{document} 
