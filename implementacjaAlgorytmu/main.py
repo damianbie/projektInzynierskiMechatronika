@@ -13,7 +13,7 @@ class App:
         pygame.display.set_caption("RObocikSimulejtor")
         
         self._guiManager    = pygame_gui.UIManager(self._wndResolution)
-        self._uiPanel       = pygame_gui.elements.ui_panel.UIPanel(relative_rect=pygame.Rect((600, 0), (300, 800)),  manager=self._guiManager, starting_layer_height=50)
+        self._uiPanel       = pygame_gui.elements.ui_panel.UIPanel(relative_rect=pygame.Rect((800, 0), (300, 800)),  manager=self._guiManager, starting_layer_height=50)
 
         self._editMapButton         = pygame_gui.elements.UIButton(relative_rect=pygame.Rect((40, 10), (200, 40)),text='Edytuj mape',manager=self._guiManager, container=self._uiPanel)
         self._startPosButton        = pygame_gui.elements.UIButton(relative_rect=pygame.Rect((40, 60), (200, 40)),text='Ustaw start',manager=self._guiManager, container=self._uiPanel)
@@ -36,10 +36,12 @@ class App:
         self._robotPort         = "3333"
         self._robotSocket       = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
         self._robotSocketFlag   = False
+        
         self._textRobotIp       = pygame_gui.elements.UITextEntryBox(relative_rect=pygame.Rect((40, 410), (200, 40),), manager=self._guiManager, container=self._uiPanel, initial_text=self._robotIp)
         self._textRobotPort     = pygame_gui.elements.UITextEntryBox(relative_rect=pygame.Rect((40, 460), (200, 40),), manager=self._guiManager, container=self._uiPanel, initial_text=self._robotPort)
         self._btnConnect        = pygame_gui.elements.UIButton(relative_rect=pygame.Rect((40, 510), (200, 40)), manager=self._guiManager, text="Polacz robota", container=self._uiPanel)
-
+        self._btnSendPath       = pygame_gui.elements.UIButton(relative_rect=pygame.Rect((40, 560), (200, 40)), manager=self._guiManager, text="Wyslij dane do robota", container=self._uiPanel)
+        self._btnRobotStart     = pygame_gui.elements.UIButton(relative_rect=pygame.Rect((40, 610), (200, 40)), manager=self._guiManager, text="Robot start", container=self._uiPanel)
 
         self.aStartPath = None
 
@@ -55,12 +57,12 @@ class App:
         self._diagonalJump          = True
         self._diagonalCorrextion    = True
         self._simulation            = False
+        self._dataIsSendedToRobot   = False
         self._disableMapEditing()
 
     def _disableMapEditing(self):
         self.editMode           = False
         self._editMapButton.set_text("Włącz edycje mapy")
-
     def _recalcWindowSize(self):
         tSize = self.map.getTileSize()
         mSize = self.map.getSize()
@@ -106,6 +108,19 @@ class App:
                     self.lastClickedPos = newTilePos
                     self.map.setWallByPos(mousePos)
 
+    def _sendCommandToRobot(self, cmd):
+        if self._robotSocketFlag is False:
+            print("Robot nie podlaczony!!")
+            return
+        
+        try:
+            self._robotSocket.send(str.encode(cmd))
+        except OSError as err:
+            print("Robot nie podlaczony!!!")
+            self._robotSocket.close()
+            self._robotSocketFlag = False
+            return
+        
     def _precessGuiEvents(self, ev):
         if ev.type == pygame_gui.UI_BUTTON_PRESSED:
             if ev.ui_element == self._editMapButton:
@@ -151,7 +166,38 @@ class App:
                 self.robot.setPath(self.path)
                 self.robot.startSimulation()
                 print("====Symulacja.......")
-                #TODO: start simulation if path exist
+            elif ev.ui_element == self._btnConnect:
+                if self._robotSocketFlag is True:
+                    self._robotSocket.close()
+                print(f"Laczenie z robotem {(self._textRobotIp.get_text(), int(self._textRobotPort.get_text()))}")
+                self._robotSocket.settimeout(1)
+                try:
+                    self._robotSocket.connect((self._textRobotIp.get_text(), int(self._textRobotPort.get_text())))
+                    self._robotSocketFlag = True
+                    self._sendCommandToRobot("ping")
+                    self._sendCommandToRobot("setMode auto")
+                    print("Podlaczono!!!")
+                except Exception as err:
+                    self._robotSocketFlag = False
+                    print(f"Blad polaczenia z robotem")
+                    print(err)
+            elif ev.ui_element == self._btnSendPath:
+                if self._pathExist and self._robotSocketFlag:
+                    self._sendCommandToRobot("setMode auto")
+                    
+                    self._dataIsSendedToRobot = True
+                    
+                    #send data to robot
+                else:
+                    print("Robot nie podlaczony lub nie ma sciezki!!!")
+            elif ev.ui_element == self._btnRobotStart:
+                if self._dataIsSendedToRobot:
+                    #robot start
+                    self._sendCommandToRobot("start")
+                else:
+                    print("nie wyslano sciezki!!!") 
+                    
+                
         elif ev.type == pygame_gui.UI_SELECTION_LIST_NEW_SELECTION:
             if ev.ui_element == self._viewPath:
                 self._showPath = True
