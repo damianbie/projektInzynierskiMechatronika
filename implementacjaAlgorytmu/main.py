@@ -1,9 +1,9 @@
-import pygame, sys
+import pygame, sys, pygame_gui, socket
 from simulation.MapLoader import MapLoader
 from simulation.Tile import Tile
-import pygame_gui
 from aStar.a_star import AStar
 from aStar.node import Node
+
 
 class App:
     def __init__(self):
@@ -13,7 +13,7 @@ class App:
         pygame.display.set_caption("RObocikSimulejtor")
         
         self._guiManager    = pygame_gui.UIManager(self._wndResolution)
-        self._uiPanel       = pygame_gui.elements.ui_panel.UIPanel(relative_rect=pygame.Rect((600, 0), (300, 500)),  manager=self._guiManager, starting_layer_height=50)
+        self._uiPanel       = pygame_gui.elements.ui_panel.UIPanel(relative_rect=pygame.Rect((600, 0), (300, 800)),  manager=self._guiManager, starting_layer_height=50)
 
         self._editMapButton         = pygame_gui.elements.UIButton(relative_rect=pygame.Rect((40, 10), (200, 40)),text='Edytuj mape',manager=self._guiManager, container=self._uiPanel)
         self._startPosButton        = pygame_gui.elements.UIButton(relative_rect=pygame.Rect((40, 60), (200, 40)),text='Ustaw start',manager=self._guiManager, container=self._uiPanel)
@@ -32,6 +32,15 @@ class App:
                                                                                         item_list = [("Korekcja przekątnych", "1")], default_selection=("Korekcja przekątnych", "1"))
     
 
+        self._robotIp           = "192.168.0.102"
+        self._robotPort         = "3333"
+        self._robotSocket       = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+        self._robotSocketFlag   = False
+        self._textRobotIp       = pygame_gui.elements.UITextEntryBox(relative_rect=pygame.Rect((40, 410), (200, 40),), manager=self._guiManager, container=self._uiPanel, initial_text=self._robotIp)
+        self._textRobotPort     = pygame_gui.elements.UITextEntryBox(relative_rect=pygame.Rect((40, 460), (200, 40),), manager=self._guiManager, container=self._uiPanel, initial_text=self._robotPort)
+        self._btnConnect        = pygame_gui.elements.UIButton(relative_rect=pygame.Rect((40, 510), (200, 40)), manager=self._guiManager, text="Polacz robota", container=self._uiPanel)
+
+
         self.aStartPath = None
 
         self.lastClickedPos         = (-1, -1)
@@ -45,6 +54,7 @@ class App:
         self._showPath              = True
         self._diagonalJump          = True
         self._diagonalCorrextion    = True
+        self._simulation            = False
         self._disableMapEditing()
 
     def _disableMapEditing(self):
@@ -99,6 +109,8 @@ class App:
     def _precessGuiEvents(self, ev):
         if ev.type == pygame_gui.UI_BUTTON_PRESSED:
             if ev.ui_element == self._editMapButton:
+                self.robot.stopSimulation()
+                self.robot.hideRobot()
                 self.editMode = not self.editMode
                 if self.editMode:
                     self._setStartPosMode   = False
@@ -110,21 +122,24 @@ class App:
                 self._pathExist         = False
                 self._setStartPosMode   = True
                 self._disableMapEditing()
+                self.robot.stopSimulation()
+                self.robot.hideRobot()
                 self._setEndPosMode     = False  
             elif ev.ui_element == self._endPosButton:
                 self._pathExist         = False
                 self._setEndPosMode     = True
                 self._setStartPosMode   = False
                 self._disableMapEditing()
+                self.robot.stopSimulation()
+                self.robot.hideRobot()
             elif ev.ui_element == self._startAStar:
                 star = AStar(self.map.map, self.map.getSize())
                 star.diagonalJump(self._diagonalJump)
                 star.diagolnalCorrection(self._diagonalCorrextion)
                 self.path       = star.findPath2(Node(self.map.getStartCords()), Node((self.map.getEndCords())))
                 self._pathExist = True
-                print("PATH")
-                for pa in self.path:
-                    print(f"{pa}")
+                self.robot.stopSimulation()
+                self.robot.hideRobot()
             elif ev.ui_element == self._startSimulation:
                 if self._pathExist == False:
                     star = AStar(self.map.map, self.map.getSize())
@@ -133,9 +148,8 @@ class App:
                     self.path       = star.findPath2(Node(self.map.getStartCords()), Node((self.map.getEndCords())))
                     self._pathExist = True
                     
-                self.robot.setStartCords(self.map.getStartCords())
-                self.robot.startSimulation()
                 self.robot.setPath(self.path)
+                self.robot.startSimulation()
                 print("====Symulacja.......")
                 #TODO: start simulation if path exist
         elif ev.type == pygame_gui.UI_SELECTION_LIST_NEW_SELECTION:
@@ -176,10 +190,12 @@ class App:
             if self._pathExist and self._showPath:
                 self.map.drawPath(self._wnd, self.path)
             
+            self.robot.update(deltaTime)
+            self.robot.draw(self._wnd)
+            
             self._guiManager.draw_ui(self._wnd)
             pygame.display.update()
 
 if __name__ == '__main__':
     app = App()
     app.main()
-    print("Damian szef")

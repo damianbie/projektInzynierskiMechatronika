@@ -15,7 +15,7 @@
     }, 
     "robot": 
     {
-        "radius":10,
+        "radius":20,
         "maxSpeedX": 2,
         "maxSpeedY": 2
     }
