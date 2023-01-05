@@ -1,2 +1,26 @@
-\section{Implementacja algorytmu i środowiska testowego}
-fdfdd
+\section{Implementacja}
+\subsection{Implementacja algorytmu}
+Mechanizm wyszukiwania najkrótszej ścieżki został zamknięty w jednym module o nazwie aStar.
+Na moduł składa się klasa AStar ze wszystkimi potrzebnymi metodami oraz klasa Node reprezentująca 
+pojedynczy punkt przeszukiwanego grafu. 
+
+Wyznaczanie najkrótszej ścieżki rozpoczyna się od wyznaczenie kosztu punktu startowego, utworzenie zbioru z nieprzeszukanymi 
+wierzchołkami, do którego dopisujemy punkt początkowy. 
+\begin{lstlisting}[language=Python,caption=Przygotowanie danych,label={kodPython}]
+    openList = []
+    startNode.h = self.heurestic(startNode.getCords(), endNode.getCords())
+    startNode.g = 0
+    heappush(openList, startNode)
+\end{lstlisting}
+
+Wewnętrzna funkcja heurestic przyjmująca pozycje dwóch punktów odpowiada
+za wyliczenie optymistycznego kosztu przejścia od punktu x do wierzchołka docelowego.
+Takie podejście pozwala na szybką podmianę funkcji bez znaczących zmian w programie.
+Wykorzystywana funkcja heurestyczna to równanie \eqref{Eq:heuresticEucalides} 
+
+W kolejnym kroku uruchamiana jest pętla, która wykonywana jest dopóki
+w zbiorze otwartym znajdują się nie odwiedzone elementy. Z listy pobierany jest 
+element o najmniejszej liczbie punktów co oznacza że dany wierzchołek drzewa jest bliżej od pozostałych.
+Jeżeli pobrany element nie jest celem to pobierani są wszyscy jego sąsiedzi.
+
+\subsection{Implementacja środowiska testowego}
