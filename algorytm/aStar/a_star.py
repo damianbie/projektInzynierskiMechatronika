@@ -1,5 +1,3 @@
-import queue
-import heapq
 from aStar.node import Node
 from heapq import heappop
 from heapq import heappush
