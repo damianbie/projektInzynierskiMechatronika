@@ -102,8 +102,11 @@ class AStar:
                     neighborNode.parent = currentNode
         
         #odwijanie sciezki
-        path = []
-        while currentNode is not None:
-            path.append(currentNode)
-            currentNode = currentNode.getParent()
-        return path
+        if currentNode == endNode:
+            path = []
+            while currentNode is not None:
+                path.append(currentNode)
+                currentNode = currentNode.getParent()
+            return path
+        else: # nie znaleziono ścieżki
+            return []

@@ -20,15 +20,14 @@ class App:
         self._endPosButton          = pygame_gui.elements.UIButton(relative_rect=pygame.Rect((40, 110), (200, 40)),text='Ustaw koniec',manager=self._guiManager, container=self._uiPanel)
         self._startAStar            = pygame_gui.elements.UIButton(relative_rect=pygame.Rect((40, 160), (200, 40)),text='Wyznacz scieżke',manager=self._guiManager, container=self._uiPanel)
         self._startSimulation       = pygame_gui.elements.UIButton(relative_rect=pygame.Rect((40, 210), (200, 40)),text='Rozpocznij symulacje',manager=self._guiManager, container=self._uiPanel)
-        self._simSpeedSlider        = pygame_gui.elements.ui_horizontal_slider.UIHorizontalSlider(relative_rect=pygame.Rect((40, 260), (200, 40)), manager=self._guiManager, start_value=1, value_range=(0.1, 4), container=self._uiPanel)
 
-        self._viewPath              = pygame_gui.elements.ui_selection_list.UISelectionList(relative_rect=pygame.Rect((40, 310), (200, 26)), manager=self._guiManager, container=self._uiPanel, 
+        self._viewPath              = pygame_gui.elements.ui_selection_list.UISelectionList(relative_rect=pygame.Rect((40, 260), (200, 26)), manager=self._guiManager, container=self._uiPanel, 
                                                                                         item_list = [("Pokaz siciezke", "1")], default_selection=("Pokaz siciezke", "1"))
 
-        self._diagonalJumpsOpt      = pygame_gui.elements.ui_selection_list.UISelectionList(relative_rect=pygame.Rect((40, 340), (200, 26)), manager=self._guiManager, container=self._uiPanel, 
+        self._diagonalJumpsOpt      = pygame_gui.elements.ui_selection_list.UISelectionList(relative_rect=pygame.Rect((40, 290), (200, 26)), manager=self._guiManager, container=self._uiPanel, 
                                                                                         item_list = [("Skok po przekątnych", "1")], default_selection=("Skok po przekątnych", "1"))
         
-        self._diagonalCorrectionOpt = pygame_gui.elements.ui_selection_list.UISelectionList(relative_rect=pygame.Rect((40, 370), (200, 26)), manager=self._guiManager, container=self._uiPanel, 
+        self._diagonalCorrectionOpt = pygame_gui.elements.ui_selection_list.UISelectionList(relative_rect=pygame.Rect((40, 320), (200, 26)), manager=self._guiManager, container=self._uiPanel, 
                                                                                         item_list = [("Korekcja przekątnych", "1")], default_selection=("Korekcja przekątnych", "1"))
     
 
@@ -37,11 +36,11 @@ class App:
         self._robotSocket       = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
         self._robotSocketFlag   = False
         
-        self._textRobotIp       = pygame_gui.elements.UITextEntryBox(relative_rect=pygame.Rect((40, 410), (200, 40),), manager=self._guiManager, container=self._uiPanel, initial_text=self._robotIp)
-        self._textRobotPort     = pygame_gui.elements.UITextEntryBox(relative_rect=pygame.Rect((40, 460), (200, 40),), manager=self._guiManager, container=self._uiPanel, initial_text=self._robotPort)
-        self._btnConnect        = pygame_gui.elements.UIButton(relative_rect=pygame.Rect((40, 510), (200, 40)), manager=self._guiManager, text="Polacz robota", container=self._uiPanel)
-        self._btnSendPath       = pygame_gui.elements.UIButton(relative_rect=pygame.Rect((40, 560), (200, 40)), manager=self._guiManager, text="Wyslij dane do robota", container=self._uiPanel)
-        self._btnRobotStart     = pygame_gui.elements.UIButton(relative_rect=pygame.Rect((40, 610), (200, 40)), manager=self._guiManager, text="Robot start", container=self._uiPanel)
+        self._textRobotIp       = pygame_gui.elements.UITextEntryBox(relative_rect=pygame.Rect((40, 370), (200, 40),), manager=self._guiManager, container=self._uiPanel, initial_text=self._robotIp)
+        self._textRobotPort     = pygame_gui.elements.UITextEntryBox(relative_rect=pygame.Rect((40, 420), (200, 40),), manager=self._guiManager, container=self._uiPanel, initial_text=self._robotPort)
+        self._btnConnect        = pygame_gui.elements.UIButton(relative_rect=pygame.Rect((40, 470), (200, 40)), manager=self._guiManager, text="Polacz robota", container=self._uiPanel)
+        self._btnSendPath       = pygame_gui.elements.UIButton(relative_rect=pygame.Rect((40, 520), (200, 40)), manager=self._guiManager, text="Wyslij dane do robota", container=self._uiPanel)
+        self._btnRobotStart     = pygame_gui.elements.UIButton(relative_rect=pygame.Rect((40, 470), (200, 40)), manager=self._guiManager, text="Robot start", container=self._uiPanel)
 
         self.aStartPath = None
 

@@ -2,7 +2,7 @@ import pygame
 
 class Robot:
     color = 0, 127, 255
-    def __init__(self, radius, speed = (10, 10)):
+    def __init__(self, radius, speed = (0.2, 0.2)):
         
         self._drawRobot     = False
         self._isSimulating  = False
@@ -65,18 +65,17 @@ class Robot:
             self._pos[1],
         ))
         
-        pSet = 0.1
         deltaPos0 = currentTargetPointInPixels[0] - self._pos[0]
         deltaPos1 = currentTargetPointInPixels[1] - self._pos[1]
         if deltaPos0 > 0:
-            tempPos[0] = tempPos[0] + (currentTargetPointInPixels[0] - self._pos[0]) * pSet
+            tempPos[0] = tempPos[0] + (currentTargetPointInPixels[0] - self._pos[0]) * self._speed[0]
         else:
-            tempPos[0] = tempPos[0] - (-currentTargetPointInPixels[0] + self._pos[0]) * pSet
+            tempPos[0] = tempPos[0] - (-currentTargetPointInPixels[0] + self._pos[0]) * self._speed[0]
          
         if deltaPos1 > 0:
-            tempPos[1] = tempPos[1] + (currentTargetPointInPixels[1] - self._pos[1]) * pSet
+            tempPos[1] = tempPos[1] + (currentTargetPointInPixels[1] - self._pos[1]) * self._speed[1]
         else:
-            tempPos[1] = tempPos[1] - (-currentTargetPointInPixels[1] + self._pos[1]) * pSet
+            tempPos[1] = tempPos[1] - (-currentTargetPointInPixels[1] + self._pos[1]) * self._speed[1]
         
         if abs(deltaPos0) < 0.2 and abs(deltaPos1) < 0.2:
             self._currentTarget -= 1
