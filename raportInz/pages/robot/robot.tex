@@ -110,14 +110,106 @@ W dalszej kolejności nawiązywana jest łączność z siecią WiFi. W przypadku
 Po poprawnym połączeniu uruchamiany jest kontekst biblioteki ASIO a następnie uruchomienie serwera TCP.
 Klienci połączeniu do serwera utowrzonego przez robota wysyłają komendy tekstowe wraz z odpowiednimi arguemntami, które
 robot odpowiednio przetwarza. 
+
 \subsubsection{Sterowanie silnikami}
 Sterowanie silnikami odbywa się poprzez klasę MotorController, która dziedziczy po klasie PIDController implementującej regulator PID.
 Obiekt automatycznie tworzy timer uruchamiający co 100ms metodę aktualizującą wyjścia sterujące silnikiem. 
 Aktualna prędkość wyznaczana jest na podstawie przerwania wyzwalanego przez enkoder silnika. Przerwanie inkrementuje licznik, 
 czyszczony przez wcześniej opisany timer. Nastawy regulatora PID zostały dobrane eksperymentalinie, człon proporcjonalny wynosi 8 a całkujący i różniczkujący 0,1. 
+Regulator PID możemy opisać przy pomocy wzoru:
 
+\begin{equation}
+	u(x) = e(x) * P + \int{e(x)} * I + \partial{e(x)} * D 
+	\label{Eq:PID}
+\end{equation}
+Gdzie: $e(x)$ -- jest błędem; P,I,D -- to stałe odpowiednio członu proporcjonalnego, całkującego i różniczkującego
 
-% TODO: opis regulatora PID, wzory itp
+\begin{equation}
+	e(x) = y_nast(x) - y_aktu(x)
+	\label{Eq:blad}
+\end{equation}
+Gdzie: $y_nast(x)$ -- to nastawa regulatora, $y_aktu(x)$ -- jest rzeczywistą zmierzoną wartością
+ 
+Powyżej przedstawiony regulator został zaimplementowany w funkcji calcOutput klasy PIDController.
+
+\begin{lstlisting}[language=C++,caption=Zaimplementowany w C++ regulator PID,label={kodCPPPIDOutput}]
+float PIDController::calcOutput(float current, float set)
+{
+	float error = set - current;
+	float der = (error - this->_lastValue)/(_timeStep* 0.001);
+	
+	float output =  (this->_p * error) + 
+					(this->_i * error * this->_timeStep * 0.001) + 
+					(this->_d * der);
+
+	this->_lastValue = error;
+	return output;
+}
+\end{lstlisting}
+
+Do wyznaczenia części różniczkującej potrzebna wartość błędu z poprzedniego wywołania pętli a ta zapisywana jest do zmiennej prywatnej klasy lastValue. 
+Całkowanie zrealizowane jest poprzez pomnożenie przez krok dyskretyzacji. Stałe regulatora ustawiane są poprzez wywołanie konstruktora klasy.
+
+Tak zaimplementowany regulator używany jest do wyznaczenia sygnału PWM, bezpośredniego sterującego układem L298n a ten silnikami. 
+
+\begin{lstlisting}[language=C++,caption=Wyznaczenie modulacji PWM,label={kodCPPPWM}]
+if(abs(setSpeed) - 1 > 0) // jezeli predkosc jest wieksza to pid jak nie to hamulec bo pwm=0
+{
+	pidToPwm = (int) this->calcOutput(abs(this->getCalculatedEngineRadialSpeed()), abs(setSpeed));
+	if(setSpeed < 0)
+	{
+		pwmCh = 1;
+	}
+	else
+		pwmCh = 0;
+
+	pidToPwm += ledc_get_duty(LEDC_LOW_SPEED_MODE, this->_chanels[pwmCh]);
+	pidToPwm = std::min(pidToPwm, 8192);
+	pidToPwm = std::max(pidToPwm, 0);
+}
+
+// ustawienie wyjsc
+ledc_set_duty(LEDC_LOW_SPEED_MODE, this->_chanels[pwmCh], (int)pidToPwm);
+ledc_update_duty(LEDC_LOW_SPEED_MODE, this->_chanels[pwmCh]);
+
+// ustawienie drugiego kanalu
+ledc_set_duty(LEDC_LOW_SPEED_MODE, this->_chanels[(pwmCh==0)?1:0], 0);
+ledc_update_duty(LEDC_LOW_SPEED_MODE, this->_chanels[(pwmCh==0)?1:0]);
+\end{lstlisting}
+
+W pierwszej kolejności sprawdzana jest zadana prędkość, jeżeli ta jest zbyt niska to na piny wystawiane są bezpośrednio stany niskie.
+Jeżeli ustawiona prędkość jest poprawna to wyznaczamy wyjście regulatora. Sterowanie kierunkiem obrotów odbywa 
+się poprzez znak zadanej prędkości a więc regulator otrzymuje wartości bezwzględne. 
+Wyjście regulatora PID sumowane jest z aktualną nastawą. Wyjścia pwm skonfigurowane są w częstotliwości 5kHz i rozdzielczości 13bitów. 
+Przed wysłanie nastaw do kontrolera pwm, te są obcinane do obsługiwanych zakresów (tj. 0 - 8192).
+
 \subsubsection{Serwer TCP}
 
-%TODO: opis serwera TCP
+Po podłączeniu zasilania i uruchomieniu
+systemu robot oczekuje na polecenia wysłane do robota poprzez protokół internetowy TCP.
+Serwer został napisany w oparciu o bibliotekę ASIO, pozwalającą na asynchroniczną obsługę wejścia i wyjścia (w tym sieci).
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=10cm]{pages/robot/zdjecia/schematASIO.jpg}
+	\caption{Schemat biblioteki ASIO \cite{asio}}
+	\label{Fig:schematASIO}
+\end{figure}
+
+Biblioteka została napisana w C++ i pracuje w oparciu o standard POSIX wspierany również przez wykorzystywane ESP32.
+Do akceptacji przychodzących połączeń została napisana klasa Server. Konstruktor przyjmuję referencje do kontekstu utworzonego w funkcji głównej programu. 
+Uruchomienie kontekstu jest ważną częścią biblioteki ASIO, przetwarzane są w niej wszystkie asynchroniczne operacje.
+Aby zapewnić jak najlepszy czas przetwarzania, kontekst uruchomiony jest w oddzielnym wątku przyłączonym do drugiego fizycznego rdzenia.
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=6cm]{pages/robot/zdjecia/schematTCP.png}
+	\caption{Schemat działania serwera TCP}
+	\label{Fig:schematSerweraTCP}
+\end{figure}
+
+Po zaakceptowaniu przychodzącego połączenia, obiekt połączenia dodawany jest do specjalnej tablicy przechowującej wszystkich klientów. 
+Dane mogą być równocześnie przetwarzane w kilku miejscach a więc używane są dzielone wskaźniki, które automatycznie usuwają dane jeżeli nikt z nich nie korzysta.
+Na każdym aktywnym połączeniu prowadzony jest nasłuch, dzięki czemu możemy mieć równocześnie podłączony program do generowania ścieżki i drugi pozwalający na podgląd parametrów robota.
+Klient wysyła polecenia w formie tekstowej, te przekazywane są do klasy systemowej odpowiednio interpretujące ich przeznaczenie.
+Jeżeli komenda tego wymaga (np. zwrócenie prędkości obrotowej silników) to dane są odsyłane do klienta w postaci tekstu i oddzielonych przerwą liczb. 
