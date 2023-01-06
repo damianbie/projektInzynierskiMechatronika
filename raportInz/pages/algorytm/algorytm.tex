@@ -1,0 +1,22 @@
+\section{Algorytm A*}
+\subsection{Geneza powstania}
+Algorytm A* powstał w ramach projektu Shakey, zapoczątkowanego w 1966 roku przez Charles Rosen'a.
+Celem projektu było zbudowanie robota, który potrafiłby planować własne działania. 
+Zbudowany robot wyróżniał się na tle innych tym że intergował kilka różnych modeli sztuczenj 
+inteligencji pracujących jako jeden system.
+
+Robot był zbudowany z:
+- kamery telewizyjnej i dalmierza optycznego - system wizyjny do obserwacji środowiska
+- łącze radiowe - służącego do komunikacji z bazą, odbierania i wysyłania komend
+- detektor uderzeń - pozwalający na zatrzymanie robota w przypadku kolizji
+
+Komunikacja odbywała się poprzez wysyłane radiowo tekstowe polecenia mające określoną strukturę np.:
+GOTO D4 - co oznaczało automatyczne przemieszczenie się robota do wskazanej pozycji
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=14cm]{pages/algorytm/zdjecia/shakey2.jpg}
+	\caption{Robot Shakey i Charles Rosen, inicjator projektu \cite{robotShakey}}
+	\label{fig:Rys}
+\end{figure}
+
+\input{pages/algorytm/dzialanie}

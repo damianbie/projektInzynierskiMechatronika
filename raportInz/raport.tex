@@ -1,0 +1,78 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%% %
+%%% % weiiszablon.tex
+%%% % The Faculty of Electrical and Computer Engineering
+%%% % Rzeszow University Of Technology diploma thesis Template
+%%% % Szablon pracy dyplomowej Wydziału Elektrotechniki 
+%%% % i Informatyki PRz
+%%% % June, 2015
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\documentclass[12pt,twoside]{article}
+
+\usepackage{raport}
+
+\author{Damian Bielecki}
+
+% np. EF-123456, EN-654321, ...
+\studentID{ME-163461}
+\title{Implementacja sterowania hierarchicznego mobilnym robotem kołowym z wykorzystaniem języka Python}
+\titleEN{Temat pracy po angielsku}
+
+
+%%% wybierz rodzaj pracy wpisując jeden z poniższych numerów: ...
+% 1 = inżynierska	%BSc
+% 2 = magisterska	%MSc
+% 3 = doktorska		%PhD
+%%% na miejsce zera w linijce poniżej
+\newcommand{\rodzajPracyNo}{1}
+
+
+%%% promotor
+\supervisor{dr. Paweł Penar}
+
+%%% promotor ze stopniami naukowymi po angielsku
+\supervisorEN{(academic degree) Imię i nazwisko opiekuna}
+
+\abstract{Treść streszczenia po polsku}
+\abstractEN{Treść streszczenia po angielsku}
+
+\begin{document}
+
+% strona tytułowa
+\maketitle
+
+\blankpage
+
+% spis treści
+\tableofcontents
+\clearpage
+\blankpage
+
+\include{pages/wstep/wstep}
+
+\include{pages/literatura/literatura}
+
+\include{pages/algorytm/algorytm}
+
+\include{pages/implementacja/implementacja}
+
+\include{pages/robot/robot}
+	
+\include{pages/testy/testy}
+
+\clearpage
+	
+\addcontentsline{toc}{section}{Literatura}
+	
+\begin{thebibliography}{4}
+	\bibitem{dokESP32} https://docs.espressif.com/projects/esp-idf/en/latest/esp32/get-started/index.html. Dostęp 04.01.2023.
+	\bibitem{robotShakey} https://medium.com/dish/75-years-of-innovation-shakey-the-robot-385af2311ec8 Dostęp 04.01.2023.
+	\bibitem{dokPygame} https://www.pygame.org/docs/ Dostęp 06.01.2023
+	\bibitem{dokPygameGui} https://pygame-gui.readthedocs.io/en/latest/ Dostęp 06.01.2023
+\end{thebibliography}
+	
+\clearpage
+	
+\makesummary
+\end{document} 
