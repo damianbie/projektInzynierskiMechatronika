@@ -12,6 +12,8 @@ Zbudowany ma być prosty w budowie i wykonaniu a więc założyłem że podstawa
 zostanie wydrukowana na drukarce 3D. Model platformy i pozostałych posiadanych elementów został wykonany w programie Fusion 360.
 Modele modułów napędowych, przedniego kółka oraz baterii pozwoliły na optymalne wyznaczenie pod względem wielkości lokalizacji wszystkich elementów.
 
+% TODO: uprościć schematy z kicada
+
 \begin{figure}[H]
 	\centering
 	\includegraphics[width=10cm]{pages/robot/zdjecia/robotModelCaly.png}
@@ -113,4 +115,9 @@ Sterowanie silnikami odbywa się poprzez klasę MotorController, która dziedzic
 Obiekt automatycznie tworzy timer uruchamiający co 100ms metodę aktualizującą wyjścia sterujące silnikiem. 
 Aktualna prędkość wyznaczana jest na podstawie przerwania wyzwalanego przez enkoder silnika. Przerwanie inkrementuje licznik, 
 czyszczony przez wcześniej opisany timer. Nastawy regulatora PID zostały dobrane eksperymentalinie, człon proporcjonalny wynosi 8 a całkujący i różniczkujący 0,1. 
+
+
+% TODO: opis regulatora PID, wzory itp
 \subsubsection{Serwer TCP}
+
+%TODO: opis serwera TCP
