@@ -1,4 +1,4 @@
-# Install script for directory: C:/Users/Damian/Desktop/projektInzynierskiMechatronika/robot-soft/main
+# Install script for directory: C:/Users/Damian/Desktop/projektInzynierskiMechatronika/robot/program/main
 
 # Set the install prefix
 if(NOT DEFINED CMAKE_INSTALL_PREFIX)

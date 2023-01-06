@@ -5,15 +5,15 @@ cmake_minimum_required(VERSION 3.5)
 
 file(MAKE_DIRECTORY
   "C:/src/esp-idf/components/bootloader/subproject"
-  "C:/Users/Damian/Desktop/projektInzynierskiMechatronika/robot-soft/build/bootloader"
-  "C:/Users/Damian/Desktop/projektInzynierskiMechatronika/robot-soft/build/bootloader-prefix"
-  "C:/Users/Damian/Desktop/projektInzynierskiMechatronika/robot-soft/build/bootloader-prefix/tmp"
-  "C:/Users/Damian/Desktop/projektInzynierskiMechatronika/robot-soft/build/bootloader-prefix/src/bootloader-stamp"
-  "C:/Users/Damian/Desktop/projektInzynierskiMechatronika/robot-soft/build/bootloader-prefix/src"
-  "C:/Users/Damian/Desktop/projektInzynierskiMechatronika/robot-soft/build/bootloader-prefix/src/bootloader-stamp"
+  "C:/Users/Damian/Desktop/projektInzynierskiMechatronika/robot/program/build/bootloader"
+  "C:/Users/Damian/Desktop/projektInzynierskiMechatronika/robot/program/build/bootloader-prefix"
+  "C:/Users/Damian/Desktop/projektInzynierskiMechatronika/robot/program/build/bootloader-prefix/tmp"
+  "C:/Users/Damian/Desktop/projektInzynierskiMechatronika/robot/program/build/bootloader-prefix/src/bootloader-stamp"
+  "C:/Users/Damian/Desktop/projektInzynierskiMechatronika/robot/program/build/bootloader-prefix/src"
+  "C:/Users/Damian/Desktop/projektInzynierskiMechatronika/robot/program/build/bootloader-prefix/src/bootloader-stamp"
 )
 
 set(configSubDirs )
 foreach(subDir IN LISTS configSubDirs)
-    file(MAKE_DIRECTORY "C:/Users/Damian/Desktop/projektInzynierskiMechatronika/robot-soft/build/bootloader-prefix/src/bootloader-stamp/${subDir}")
+    file(MAKE_DIRECTORY "C:/Users/Damian/Desktop/projektInzynierskiMechatronika/robot/program/build/bootloader-prefix/src/bootloader-stamp/${subDir}")
 endforeach()

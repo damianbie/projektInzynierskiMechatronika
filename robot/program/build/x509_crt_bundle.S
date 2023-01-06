@@ -1,4 +1,4 @@
-/* * Data converted from C:/Users/Damian/Desktop/projektInzynierskiMechatronika/robot-soft/build/esp-idf/mbedtls/x509_crt_bundle
+/* * Data converted from C:/Users/Damian/Desktop/projektInzynierskiMechatronika/robot/program/build/esp-idf/mbedtls/x509_crt_bundle
  */
 .data
 .section .rodata.embedded

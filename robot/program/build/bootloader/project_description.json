@@ -1,8 +1,8 @@
 {
     "project_name":       "bootloader",
     "project_path":       "C:/src/esp-idf/components/bootloader/subproject",
-    "build_dir":          "C:/Users/Damian/Desktop/projektInzynierskiMechatronika/robot-soft/build/bootloader",
-    "config_file":        "C:/Users/Damian/Desktop/projektInzynierskiMechatronika/robot-soft/sdkconfig",
+    "build_dir":          "C:/Users/Damian/Desktop/projektInzynierskiMechatronika/robot/program/build/bootloader",
+    "config_file":        "C:/Users/Damian/Desktop/projektInzynierskiMechatronika/robot/program/sdkconfig",
     "config_defaults":    "",
     "app_elf":            "bootloader.elf",
     "app_bin":            "bootloader.bin",

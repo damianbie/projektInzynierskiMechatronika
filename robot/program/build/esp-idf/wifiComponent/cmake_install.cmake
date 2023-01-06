@@ -1,4 +1,4 @@
-# Install script for directory: C:/Users/Damian/Desktop/projektInzynierskiMechatronika/robot-soft/components/wifiComponent
+# Install script for directory: C:/Users/Damian/Desktop/projektInzynierskiMechatronika/robot/program/components/wifiComponent
 
 # Set the install prefix
 if(NOT DEFINED CMAKE_INSTALL_PREFIX)
