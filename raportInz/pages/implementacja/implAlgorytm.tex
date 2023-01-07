@@ -1,8 +1,8 @@
 Mechanizm wyszukiwania najkrótszej ścieżki został zamknięty w jednym module o nazwie aStar.
-Na moduł składa się klasa AStar ze wszystkimi potrzebnymi metodami oraz klasa Node reprezentująca 
-pojedynczy punkt przeszukiwanego grafu. 
+Na moduł składa się klasa AStar ze wszystkimi potrzebnymi metodami oraz dodatkowa klasa Node reprezentująca 
+pojedynczy punkt przeszukiwanego grafu.
 
-Wyznaczanie najkrótszej ścieżki rozpoczyna się od wyznaczenie kosztu punktu startowego, utworzenie zbioru z nieprzeszukanymi 
+Wyznaczanie najkrótszej ścieżki rozpoczyna się od wyznaczenia kosztu punktu startowego i utworzenia zbioru z nieprzeszukanymi 
 wierzchołkami, do którego dopisujemy punkt początkowy. 
 \begin{lstlisting}[language=Python,caption=Przygotowanie danych,label={kodPython}]
     openList = []
@@ -14,16 +14,16 @@ wierzchołkami, do którego dopisujemy punkt początkowy.
 Wewnętrzna funkcja heurestic przyjmująca pozycje dwóch punktów odpowiada
 za wyliczenie optymistycznego kosztu przejścia od punktu x do wierzchołka docelowego.
 Takie podejście pozwala na szybką podmianę funkcji bez znaczących zmian w programie.
-Wykorzystywana funkcja heurestyczna to równanie \eqref{Eq:heuresticEucalides} 
+Wykorzystywana funkcja heurestyczna to równanie nr. \eqref{Eq:heuresticEucalides} 
 
 W kolejnym kroku uruchamiana jest pętla, która wykonywana jest dopóki
 w zbiorze otwartym znajdują się nie odwiedzone elementy. Z listy pobierany jest 
 element o najmniejszej liczbie punktów co oznacza że dany wierzchołek drzewa ma największe szanse być najlepszym rozwiązaniem.
-Jeżeli pobrany element nie jest celem to dalej pobierani są wszyscy jego sąsiedzi. 
-Dalej w pętla przechodzi po pobranych sąsiadach aktualnego punktu. W tym rozwiązaniu dla zaoszczędzenia pamięci, symulator przechowuję tylko przeszkody.
+Jeżeli pobrany element nie jest celem to dalej pobierani są wszyscy jego sąsiedzi i pętla przechodzi po pobranych sąsiadach aktualnego punktu. 
+W tym rozwiązaniu dla zaoszczędzenia pamięci, symulator przechowuję tylko przeszkody.
 W związku z tym do pobrania sąsiadów używana jest specjalna funkcja sprawdzająca czy na mapie o wskazanych koordynatach istnieje punkt. 
 Jeżeli takowy obiekt nie istnieje to oznacza że algorytm może użyć tych współrzędnych do trasowania ścieżki. 
-Od tego kodu zależy czy algorytm ma wyznaczyć ścieżkę uwzględniając skoki po skosie.
+Od tej części programu zależy czy algorytm ma wyznaczyć ścieżkę uwzględniając skoki po skosie.
 
 \begin{lstlisting}[language=Python,caption=Wyznaczenie kosztu ścieżki,label={kodPython2}]
 neighborNode = self._findNodeOnList(openList, newCords)
@@ -62,6 +62,6 @@ else:
     return []
 \end{lstlisting}
 
-Po zakończeniu wykonywania pętli, sprawdzane jest czy została znaleziona ścieżka. Jeżeli takowa istnieje to w kolejnej pętli 
+Po zakończeniu pętli, sprawdzane jest czy została znaleziona ścieżka, jeżeli takowa istnieje to w kolejnej pętli 
 wyznaczane są przy pomocy pola wskazującego na rodzica kolejne punkty trasy. 
 Jeżeli węzeł nie jest punktem końcowym to trasa nie została znaleziona i zwracana jest pusta lista.

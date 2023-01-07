@@ -1,8 +1,8 @@
 \subsection{Opis działania algorytmu}
 
-A* to heurestyczny algorytm wyznaczający najkrótszą możliwą ścieżke w grafie. 
-Jest to algorytm zupełny i optymalny a więc zawsze zostanie wyznaczona optymalne 
-rozwiązanie. Ze względu na przeszukiwanie oparte na grafie algorytm najlepiej działa na strukturze drzewiastej.
+A* to heurestyczny algorytm wyznaczający najkrótszą możliwą ścieżkę w grafie. 
+Jest to algorytm zupełny i optymalny a więc zawsze zostanie wyznaczone optymalne 
+rozwiązanie. Ze względu na przeszukiwanie oparte na grafie algorytm działa najlepiej na strukturze drzewiastej.
 Zadaniem algorytmu jest minimalizacja funkcji:
 \begin{equation}
 	f(x)=h(x) + g(x)
@@ -10,34 +10,36 @@ Zadaniem algorytmu jest minimalizacja funkcji:
 \end{equation}
 gdzie: $f(x)$ - minimalizowana funkcja, $g(x)$ - to rzeczywisty koszt dojścia do punktu x.
 
-Funckja $h(x)$ to funkcja heurestyczna oszacowująca ona koszt dotarcia od punktu x do wierzchołka docelowego
+Funkcja $h(x)$ to funkcja heurestyczna, oszacowuje ona koszt dotarcia od punktu x do wierzchołka docelowego
 
 Zalety:
 \begin{itemize}
-    \item jest kompletny i optymalny
-    \item może przeszukować skomplikowane mapy
-    \item jest najwydajnieszym takim algorytmem
+	\item jest kompletny i optymalny
+	\item może przeszukiwać skomplikowane mapy
+	\item jest najwydajniejszym takim algorytmem
 \end{itemize}
 Wady:
 \begin{itemize}
-    \item jego wydajność w znacznej mierze zależy od funkcji heurestycznej
-    \item Każda akcja ma stały koszt wykonania
-    \item nie nadaje się do często zmieniającego się otoczenia robota, wymaga ponownego przeliczenia
-    
+	\item jego wydajność w znacznej mierze zależy od funkcji heurestycznej
+	\item Każda akcja ma stały koszt wykonania
+	\item nie nadaje się do często zmieniającego się otoczenia robota, wymaga ponownego przeliczenia
 \end{itemize}
 
 
 \textbf{Przykładowe funkcje heurestyczne:}
 \begin{itemize}
-    \item Funkcja euklidesowa
-    \begin{equation}
-        h(x)= 10 * \sqrt[2]{(x_1 - x_2)^2 + (y_1 - y_2)^2}
-        \label{Eq:heuresticEucalides}
-    \end{equation}
-    \item Geometria Manhattanu (innaczej metryka miejska)
-    \begin{equation}
-        h(x)= |x_2 - x_1| + |y_2 - y_1|
-        \label{Eq:heuresticManhattanu}
-    \end{equation}
+	\item Funkcja euklidesowa
+	      \begin{equation}
+	      	h(x)= 10 * \sqrt[2]{(x_1 - x_2)^2 + (y_1 - y_2)^2}
+	      	\label{Eq:heuresticEucalides}
+	      \end{equation}
+	\item Geometria Manhattanu (innaczej metryka miejska)
+	      \begin{equation}
+	      	h(x)= |x_2 - x_1| + |y_2 - y_1|
+	      	\label{Eq:heuresticManhattanu}
+	      \end{equation}
 \end{itemize}
 Gdzie: $x_1$ i $y_1$ to współrzędne wyznaczanego punktu, $x_2$ i $y_2$ to koordynaty celu
+
+
+%TODO: cos o innych algorytmach np. skanowaine otoczenia lidarem

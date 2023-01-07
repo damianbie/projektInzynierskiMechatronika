@@ -1,14 +1,14 @@
 \section{Projekt robota}
 \subsection{Założenia projektowe}
-Wykonany robot powinien być jak najmniejszy i najprostszy w wykonaniu oraz sterowaniu tak aby móc przetesotwać przy jego pomocy działanie algorytmu A*. 
-Robot będzie zbudowany z platformy, do której zostaną przyczepiony napęd, elektronika sterująca oraz bateria. 
+Wykonany robot powinien być jak najmniejszy i najprostszy w wykonaniu oraz sterowaniu tak aby móc przetestować przy jego pomocy działanie algorytmu A*. 
+Robot będzie zbudowany z platformy, do której zostaną przyczepione napędy, elektronika sterująca oraz bateria. 
 Do platformy zostaną przymocowane dwa gotowe moduły napędowe składające się z silnika, przekładni oraz dużego koła. 
 Aby pojazd stał stabilnie, doczepione zostanie trzecie koło obracające się swobodnie w każdym kierunku.
-Całość będzie sterowana przy pomocy mikrokontrolera ESP32 oraz dwukanałowym sterownikiem silników DC opartym na układzie L298n.
-Za zasilanie będzie odpowiadała litowo-jonowy akumulator 4S.
+Całość będzie sterowana przy pomocy mikroprocesora ESP32 oraz dwukanałowego sterownika silników DC opartym na układzie L298n.
+Za zasilanie będzie odpowiadał litowo-jonowy akumulator 4S.
 
 \subsection{Projektowanie zarysu robota w środowisku CAD}
-Zbudowany ma być prosty w budowie i wykonaniu a więc założyłem że podstawa utrzymujące pozostałe komponenty
+Robot ma być prosty w budowie i wykonaniu a więc założyłem że podstawa utrzymujące pozostałe komponenty
 zostanie wydrukowana na drukarce 3D. Model platformy i pozostałych posiadanych elementów został wykonany w programie Fusion 360.
 Modele modułów napędowych, przedniego kółka oraz baterii pozwoliły na optymalne wyznaczenie pod względem wielkości lokalizacji wszystkich elementów.
 
@@ -27,10 +27,9 @@ Modele modułów napędowych, przedniego kółka oraz baterii pozwoliły na opty
 	\caption{Widok z góry na podwozie robota}
 	\label{Fig:Rysunek}
 \end{figure}
-Model został przygotowany do druku w programie Ultimaker Cura. Parametry druku zostały dobrane 
-eksperymentalnie na podstawie własnych doświadczeń. 
-Podstawę wydrukowano z PLA w temperaturze 220*C i wysokości warstwy 0,2mm. 
-Żeby zwiększyć wytrzymałość temperatura głowicy została lekko zawyżona względem wymagań producenta filamentu
+Model został przygotowany do druku w programie Ultimaker Cura a parametry druku zostały dobrane 
+eksperymentalnie. Podstawę wydrukowano z PLA w temperaturze 220*C i wysokości warstwy 0,2mm. 
+Żeby zwiększyć wytrzymałość temperatura głowicy została lekko zawyżona względem wymagań producenta filamentu.
 \begin{figure}[H]
 	\centering
 	\includegraphics[width=13cm]{pages/robot/zdjecia/robotRamaCura.png}
@@ -38,7 +37,7 @@ Podstawę wydrukowano z PLA w temperaturze 220*C i wysokości warstwy 0,2mm.
 	\label{fig:Rysunek}
 \end{figure}
 \subsection{Projekt, wykonanie oraz podłączenie elektroniki robota}
-Ze względu na chęć bezprzowodowego sterowania robotem zostanie wykorzystany moduł ESP32, dla którego zostanie przygotowana odpowiednia płytka 
+Ze względu na chęć bezprzewodowego sterowania robotem zostanie wykorzystany moduł ESP32, dla którego zostanie przygotowana odpowiednia płytka 
 z wyprowadzeniami do enkoderów silnika oraz ich sterownika. Schemat elektroniczny i projekt pcb został wykonany w programie KiCad. 
 \begin{figure}[H]
 	\centering
@@ -46,8 +45,8 @@ z wyprowadzeniami do enkoderów silnika oraz ich sterownika. Schemat elektronicz
 	\caption{Ogólny schemat połączeń}
 	\label{Fig:Rysunek}
 \end{figure}
-Wszystkie potrzebne elementy podsystemy mikrokontrolera zostały już wlutowane w module deweloperskim
-a więc mój schemat zawiera jedynie odpowiednia połączenia z modułami roboczymi.
+Wszystkie potrzebne elementy podsystemów mikroprocesora zostały już wlutowane w module deweloperskim
+a więc mój schemat zawiera jedynie odpowiednie połączenia z modułami roboczymi.
 \begin{figure}[H]
 	\centering
 	\includegraphics[width=10cm]{pages/robot/zdjecia/kicad/schematZasilanie.png}
@@ -55,12 +54,12 @@ a więc mój schemat zawiera jedynie odpowiednia połączenia z modułami robocz
 	\label{Fig:Rysunek}
 \end{figure}
 Użyta bateria posiada napięcie maksymalne 16,8V a więc musi zostać odpowiednio zmniejszone przed podaniem go na piny zasilania. 
-Ze względu na wykorzystywaną łączność bezprzewodową a więc zwiększone zużycie prądu zmniejszanie napięcia zostało podzielone na dwie sekcje. 
+Ze względu na wykorzystywaną łączność bezprzewodową a więc zwiększone zużycie prądu, zmniejszanie napięcia zostało podzielone na trzy sekcje. 
 Najpierw zmniejszane jest poprzez stabilizator LM7812 z 16.8V do 12V a następnie poprzez LM7805 z 12V napięcie redukowane jest do 5V. 
 ESP32 zasilane jest napięciem 3.3V tworzonym poprzez stabilizator AMS1117 w module deweloperskim. 
 Aby zredukować spadki napięć powstałe przy nagłym poborze prądu dodałem dodatkowe kondensatory filtrujące. 
-Dodatkowo na schemacie widoczny jest dzielnik napięcia pozwalający na poziom naładowania baterii przez sterownik 
-jednak ostatecznie nie został on wykorzystany w projekcie.
+Dodatkowo na schemacie widoczny jest dzielnik napięcia pozwalający na poziom naładowania baterii przez sterownik oraz programowalne diody świecące ws2812b,
+jednak ostatecznie nie zostały wykorzystane w projekcie.
 \begin{figure}[H]
 	\centering
 	\includegraphics[width=16cm]{pages/robot/zdjecia/kicad/schematSilniki.png}
@@ -82,8 +81,7 @@ Silniki zasilane są poprzez moduł z układem L298n a prędkość ustalana jest
 	\caption{Projekt PCB}
 	\label{Fig:Rysunek}
 \end{figure}
-Na widocznym powyżej zdjęciu widać ostateczną wersje projektu pcb. 
-Można zauważyć że widoczne są na niej trzy adresowalne diody świecące, które nie zostały wykorzystywane przez napisane oprogramowanie.
+Na widocznym powyżej zdjęciu widać ostateczną wersje projektu pcb.
 
 
 \subsection{Oprogramowanie robota}
@@ -108,7 +106,7 @@ system czasu rzeczywistego FreeRTOS i ASIO do obsługi połączenia TCP.
 Działanie programu rozpoczyna się od wywołania funkcji app\_main, inicjalizacji funkcji systemowych i sterowników silników.
 W dalszej kolejności nawiązywana jest łączność z siecią WiFi. W przypadku braku połączenia system resetuje się. 
 Po poprawnym połączeniu uruchamiany jest kontekst biblioteki ASIO a następnie uruchomienie serwera TCP.
-Klienci połączeniu do serwera utowrzonego przez robota wysyłają komendy tekstowe wraz z odpowiednimi arguemntami, które
+Klienci po połączeniu do utworzonego serwera wysyłają komendy tekstowe wraz z odpowiednimi argumentami, które
 robot odpowiednio przetwarza. 
 
 \subsubsection{Sterowanie silnikami}
@@ -213,3 +211,5 @@ Dane mogą być równocześnie przetwarzane w kilku miejscach a więc używane s
 Na każdym aktywnym połączeniu prowadzony jest nasłuch, dzięki czemu możemy mieć równocześnie podłączony program do generowania ścieżki i drugi pozwalający na podgląd parametrów robota.
 Klient wysyła polecenia w formie tekstowej, te przekazywane są do klasy systemowej odpowiednio interpretujące ich przeznaczenie.
 Jeżeli komenda tego wymaga (np. zwrócenie prędkości obrotowej silników) to dane są odsyłane do klienta w postaci tekstu i oddzielonych przerwą liczb. 
+
+% TODO: nawiązanie do serwera dhcp

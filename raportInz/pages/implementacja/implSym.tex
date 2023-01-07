@@ -1,5 +1,5 @@
 Środowisko symulacyjne zostało napisane w języku Python i bibliotekach pygame\cite{dokPygame} i pygame\_gui\cite{dokPygameGui},
-zapewniające obsługę graficznego interfejsu użytkownika. 
+zapewniających obsługę graficznego interfejsu użytkownika. 
 \begin{lstlisting}[language=Python,caption=Uruchomienie aplikacji,label={kodPythonStartApki}]
 if __name__ == '__main__':
     app = App()
@@ -9,9 +9,11 @@ if __name__ == '__main__':
 \textbf{Obsługa mapy}
 
 Dla logicznego podzielenia programu została napisana główna klasa programu o nazwie App.
-Takie podejście pozwoliło na odseparowanie poszczególnych stanów w aplikacji. W pierwszej kolejności konstruktor obiektu aplikacji, generuje okno, tworzy 
+Takie podejście pozwoliło na odseparowanie poszczególnych funkcji aplikacji. 
+W pierwszej kolejności konstruktor obiektu aplikacji, generuje okno, tworzy 
 graficzne elementy użytkownika oraz ustawia odpowiednie flagi informujące o stanie aplikacji. 
-Dalej wywoływana jest funkcja main wczytująca odpowiednią mapę z pliku a następnie uruchamiająca główną pętle programu działającą w 60 klatkach na sekundę.
+Dalej wywoływana jest funkcja main wczytująca odpowiednią mapę z pliku a następnie uruchamiająca 
+główną pętle programu działającą w 60 klatkach na sekundę.
 
 \begin{figure}[H]
 	\centering
@@ -21,26 +23,27 @@ Dalej wywoływana jest funkcja main wczytująca odpowiednią mapę z pliku a nas
 \end{figure}
 
 Aby uprościć sobie symulowanie różnych scenariuszy i rozmiarów map otoczenia, ta ładowana jest ze wskazanego w 
-programie pliku. Wskazany plik jest w formacie josn i podzielony jest na dwie sekcje. 
-Pierwsza dostarcza informacje o samej mapie, natomiast druga o poruszającym się po niej robocie. Sekcja mapy zawiera lokalizacje do pliku tekstowego z zapisanymi elementami. 
+programie pliku. Wskazany plik jest w formacie json i podzielony jest na dwie sekcje. 
+Pierwsza dostarcza informacje o samej mapie, natomiast druga o poruszającym się po niej robocie. 
+Sekcja mapy zawiera lokalizacje do pliku tekstowego z zapisanymi elementami. 
 
 \begin{lstlisting}[language=Python,caption=Uruchomienie aplikacji,label={kodPythonWczytanieMapy}]
 (self.map, self.robot) = MapLoader.fromJson("maps/m02.json")
 \end{lstlisting}
-Ładowaniem wszystkich tych informacji zajmuje się specjalna metoda w klasie wywołana przed uruchomieniem pętli głównej. 
-Wczytywana mapa jest w postaci siatki i stałym rozmiarze każdego elementu. Symulator rozróżnia kilka typów węzłów:
+Ładowaniem wszystkich tych informacji zajmuje się specjalna metoda w klasie MapLoader, wywołana przed uruchomieniem pętli głównej programu.
+Wczytywana mapa jest w postaci siatki i każdy jej element ma stały rozmiar. Symulator rozróżnia kilka typów węzłów:
 \begin{itemize}
 	\item brak elementu - możliwy przejazd 
 	\item ściana - przeszkoda do ominięcia przez algorytm
-	\item punkt początkowy - punkt, od którego rozpoczyna się wyznaczanie ścieżki, zdefiniowany przez użytkownika
+	\item punkt początkowy - od niego rozpoczyna się wyznaczanie ścieżki, jest zdefiniowany przez użytkownika
 	\item punkt końcowy - analogicznie jak w poprzednim przypadku
-	\item ścieżka - element wyznaczonej ścieżki
+	\item ścieżka - element wyznaczonej trasy
 \end{itemize}
 
-Wszystkie wymienione typy zapisane są w klasie Tile, reprezentującej pojedynczy rysowany i zapisywany do pliku kwadrat.
-Użytkownik może w każdej chwili działania aplikacji edytować mapę. Przed zamknięciem aplikacji 
-zaktualizowana mapa zapisywana jest do pliku. Wyjątkiem jest obiekt będący elementem ścieżki. 
-Ten nie jest zapisywany do pliku, ponieważ generowany jest dynamicznie i służy tylko do reprezentacji wygenerowanej ścieżki.
+Wszystkie wymienione typy zapisane są w klasie Tile, reprezentującej pojedynczy rysowany i zapisywany w pliku kwadrat.
+Użytkownik może w każdej chwili działania aplikacji edytować mapę a  przed zamknięciem programu 
+zaktualizowana mapa jest zapisywana do pliku. Wyjątkiem jest obiekt będący elementem ścieżki, 
+ten nie jest zapisywany do pliku, ponieważ generowany jest dynamicznie i służy tylko do reprezentacji wygenerowanej ścieżki.
 
 \textbf{Wyznaczanie ścieżki i symulacja}
 
@@ -62,19 +65,19 @@ wyznaczający trasę i ustawia dodatkowe opcje algorytmu (np. skok po przekątny
 Dalej pobierana jest wyznaczona trasa będąca tablicą kolejnych punktów, po których należy przejść aby dojść do celu.
 Na końcu ustawiana jest odpowiednia flaga programu, zatrzymywana jest symulacja i ukrywany jest robot (mamy nowo wyznaczoną trasę).
 Przycisk uruchamiający symulacje sprawdza czy istnieje ścieżka i w razie potrzeby ją generuje. Następnie trasa podawana 
-jest do obiektu robota odpowiadającego za symulacje i dalej symulacja jest uruchamiana.
+jest do obiektu robota odpowiadającego za symulacje i dalej jest ona uruchamiana.
 
 \textbf{Przejście robota po ścieżce}
 
 Symulator robota pobiera pierwszy punkt, do którego ma dotrzeć. Zmiana pozycji odbywa się poprzez regulator typu P z 
-ustawioną nastawą na wskazany punkt. Wartość wzmocnienia proporcjonalnego wczytana jest z pliku mapy i oznaczona jest jako szybkość robota.
+ustawioną nastawą na wskazany punkt. Wartość wzmocnienia proporcjonalnego wczytana jest z pliku i oznaczona jest jako szybkość robota.
 Dalszy etap to sprawdzenie czy symulowany robot dotarł do celu. 
 \begin{lstlisting}[language=Python,caption=Uruchomienie aplikacji,label={kodPythonSprawdzenieCeluRobota}]
 if abs(deltaPos0) < 0.2 and abs(deltaPos1) < 0.2:
             self._currentTarget -= 1
 \end{lstlisting}
 Realizowane jest to poprzez sprawdzenie czy wartość bezwzględna z różnicy aktualnej oraz docelowej pozycji jest mniejsza niż 0,1.
-Po osiągnięciu punkt ustawiany jest nowy indeks wskazujący na kolejny cel.
+Po osiągnięciu punktu, ustawiany jest nowy indeks tablicy wskazujący na kolejny cel.
 Jeżeli na początku aktualizacji indeks jest ujemny to robot przejechał po całej wyznaczonej trasie.
 
 \textbf{Komunikacja z robotem}
@@ -82,7 +85,7 @@ Jeżeli na początku aktualizacji indeks jest ujemny to robot przejechał po ca�
 
 Po wyznaczeniu ścieżki symulator na polecenie użytkownika może połączyć się ze zbudowanym robotem aby ten osiągnął założony cel.
 Zgodnie ze schematem \cite{sch:ogolnyRozwiazania} robot po połączeniu z siecią WiFi i utworzeniu serwera TCP oczekuje na wysyłane komendy.
-Aplikacja podczas uruchamiania się tworzy gniazdo, które potem zostanie wykorzystane do połączenia. 
+Aplikacja podczas uruchamiania, tworzy gniazdo, które potem zostanie wykorzystane do połączenia. 
 \begin{lstlisting}[language=Python,caption=Utworzone gniazdo,label={kodPythonGniazdo}]
 self._robotSocket       = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 \end{lstlisting}
@@ -92,7 +95,7 @@ Po wprowadzeniu wymaganych danych operator może spróbować nawiązać połącz
 
 \begin{lstlisting}[language=Python,caption=Nawiązanie połączenia,label={kodPythonGniazdo}]
 if self._robotSocketFlag is True:
-self._robotSocket.close()
+    self._robotSocket.close()
 
 print(f"Laczenie z robotem {(self._textRobotIp.get_text(), int(self._textRobotPort.get_text()))}")
 self._robotSocket.settimeout(1)
@@ -106,7 +109,7 @@ except Exception as err:
     print(f"Blad polaczenia z robotem")
     print(err)
 \end{lstlisting}
-W pierwszej kolejności sprawdzana jest flaga informująca o stanie połączenia, jeżeli jest aktywne to połączenie jest zamykane.
+W pierwszej kolejności sprawdzana jest flaga informująca o stanie połączenia, jeżeli jest aktywne to jest ono zamykane.
 Na utworzonym gnieździe wywoływana jest funkcja connect z wprowadzonymi przez użytkownika parametrami.
 Cała operacja zamknięta jest w bloku try..except a więc jeżeli program nie połączy się z robotem to wyświetlana jest odpowiednia informacja. 
 Podczas łączenia należy zwracać uwagę na podsieci, w których jest robot i sterujący laptop. 
@@ -142,7 +145,7 @@ Na poniższym zrzucie widać uruchomiony program z trwającą symulacją. Po pra
 z interfejsem użytkownika. Po lewej stronie widoczna jest wczytana mapa. 
 Kolorem niebieskim został oznaczony punkt startowy a czerwonym końcowy.
 Żółte kratki oznaczają wyznaczoną przez algorytm ścieżkę, po której przejdzie robot. Szare pola to przeszkody, które robot ma ominąć. 
-Robot oznaczony jest przez jasno-zielone koło, które przesuwa się po polu. 
+Robot oznaczony jest przez jasno-zielone koło, które przesuwa się po mapie. 
 
 \begin{figure}[H]
 	\centering
