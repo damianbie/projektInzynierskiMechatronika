@@ -21,11 +21,17 @@
 \usepackage{amsmath} 					% pakiet matematyczny
 \usepackage{color} 						% podstawowe kolory
 \usepackage{listings}                   % styl dla formatowania kodów źródłowych
-\usepackage[a4paper,left=3.5cm,right=2cm,top=2cm,bottom=2.5cm,includefoot=false,includehead=false,footskip=1.16cm]{geometry} 	% wymiary strony
+\usepackage[a4paper,left=2cm,right=2cm,top=2cm,bottom=2cm,includefoot=false,includehead=false,footskip=1.16cm]{geometry} 	% wymiary strony
 
 \usepackage{bm}							% dla pogrubionych i pochylonych czcionek w środowisku matematycznym
 
 \usepackage{float}
+
+\usepackage{changes} %Pakiet do ręcznego wprawadzania zmian. 
+%Opcja final wprowadza zmiany (tj. added, delete oraz replaced) do skomilowanego tekstu
+%\usepackage[final]{changes} %Pakiet do ręcznego wprawadzania zmian. 
+
+%Dokumentacja: https://ctan.math.illinois.edu/macros/latex/contrib/changes/changes.english.withcode.pdf
 
 % dla spisu treści
 \usepackage{hyperref}
@@ -158,7 +164,7 @@
 \renewcommand{\thefigure}{\arabic{section}.\arabic{figure}}
 \renewcommand{\theequation}{\arabic{section}.\arabic{equation}}
 
-\AtBeginEnvironment{figure}{}\AtEndEnvironment{figure}{\addvspace{18pt}} % dodatkowe odstępy przed tabelami i rysunkami
+%\AtBeginEnvironment{figure}{}\AtEndEnvironment{figure}{\addvspace{18pt}} % dodatkowe odstępy przed tabelami i rysunkami
 \AtBeginEnvironment{table}{}\AtEndEnvironment{table}{\vspace{18pt}}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%

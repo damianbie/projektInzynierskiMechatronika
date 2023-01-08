@@ -183,17 +183,13 @@ Przed wysłanie nastaw do kontrolera pwm, te są obcinane do obsługiwanych zakr
 
 \subsubsection{Serwer TCP}
 
-Po podłączeniu zasilania i uruchomieniu
-systemu robot oczekuje na polecenia wysłane do robota poprzez protokół internetowy TCP.
-Serwer został napisany w oparciu o bibliotekę ASIO, pozwalającą na asynchroniczną obsługę wejścia i wyjścia (w tym sieci).
-
+Po podłączeniu zasilania i uruchomieniu systemu robot oczekuje na polecenia wysłane do robota poprzez protokół internetowy TCP. Serwer został napisany w oparciu o bibliotekę ASIO, pozwalającą na asynchroniczną obsługę wejścia i wyjścia (w tym sieci).
 \begin{figure}[H]
 	\centering
 	\includegraphics[width=10cm]{pages/robot/zdjecia/schematASIO.jpg}
 	\caption{Schemat biblioteki ASIO \cite{asio}}
 	\label{Fig:schematASIO}
 \end{figure}
-
 Biblioteka została napisana w C++ i pracuje w oparciu o standard POSIX wspierany również przez wykorzystywane ESP32.
 Do akceptacji przychodzących połączeń została napisana klasa Server. Konstruktor przyjmuję referencje do kontekstu utworzonego w funkcji głównej programu. 
 Uruchomienie kontekstu jest ważną częścią biblioteki ASIO, przetwarzane są w niej wszystkie asynchroniczne operacje.
