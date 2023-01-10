@@ -7,81 +7,93 @@ Aby pojazd stał stabilnie, doczepione zostanie trzecie koło obracające się s
 Całość będzie sterowana przy pomocy mikroprocesora ESP32 oraz dwukanałowego sterownika silników DC opartym na układzie L298n.
 Za zasilanie będzie odpowiadał litowo-jonowy akumulator 4S.
 
-\subsection{Projektowanie zarysu robota w środowisku CAD}
-Robot ma być prosty w budowie i wykonaniu, a więc założyłem, że podstawa utrzymujące pozostałe komponenty
-zostanie wydrukowana na drukarce 3D. Model platformy i pozostałych posiadanych elementów został wykonany w programie Fusion 360.
-Modele modułów napędowych, przedniego kółka oraz baterii pozwoliły na optymalne wyznaczenie pod względem wielkości lokalizacji wszystkich elementów.
-
-% TODO: uprościć schematy z kicada
+\subsection{Projektowanie robota w środowisku CAD}
+Podstawa robota utrzymująca wszystkie komponenty zostanie wydrukowana na drukarce 3D, a
+model platformy i pozostałych posiadanych elementów został wykonany w programie Fusion 360.
+Wykonane modele modułów napędowych, przedniego kółka oraz baterii pozwoliły na optymalne rozmieszczenie wszystkich elementów.
 
 \begin{figure}[H]
 	\centering
-	\includegraphics[width=10cm]{pages/robot/zdjecia/robotModelCaly.png}
-	\caption{Zaprojektowane podwozie robota w programie Fusion360}
-	\label{fig:Rys}
-\end{figure}
-
-\begin{figure}[H]
-	\centering
-	\includegraphics[width=10cm]{pages/robot/zdjecia/robotModelRama.png}
+	\includegraphics[width=8cm]{pages/robot/zdjecia/robotModelRama.png}
 	\caption{Widok z góry na podwozie robota}
-	\label{Fig:Rysunek}
+	\label{Fig:robotModelRama}
 \end{figure}
-Model został przygotowany do druku w programie Ultimaker Cura a parametry druku zostały dobrane 
-eksperymentalnie. Podstawę wydrukowano z PLA w temperaturze 220*C i wysokości warstwy 0,2mm. 
-Żeby zwiększyć wytrzymałość temperatura głowicy została lekko zawyżona względem wymagań producenta filamentu.
+
+Model został przygotowany w programie Ultimaker Cura i wydrukowane z filamentu PLA.
+Temperatur głowicy wynosiła 220$ ^\circ C$ a stołu 60$ ^\circ C$. Aby przyśpieszyć wydruk wysokość warstwy została ustawiona na 0,2mm. 
+Żeby zwiększyć wytrzymałość i lepiej zgrzać warstwy, temperatura głowicy została lekko zawyżona względem wymagań producenta filamentu,
+a model posiada dwa dodatkowe wsporniki wzdłuż platformy.
+
 \begin{figure}[H]
 	\centering
-	\includegraphics[width=13cm]{pages/robot/zdjecia/robotRamaCura.png}
-	\caption{Widok przygotowanego do druku modelu}
-	\label{fig:Rysunek}
+	\includegraphics[width=14cm]{pages/robot/zdjecia/robotModelCaly.png}
+	\caption{Model robota z modułami}
+	\label{fig:robotModelCaly}
 \end{figure}
-\subsection{Projekt, wykonanie oraz podłączenie elektroniki robota}
-Ze względu na chęć bezprzewodowego sterowania robotem zostanie wykorzystany moduł ESP32, dla którego zostanie przygotowana odpowiednia płytka 
-z wyprowadzeniami do enkoderów silnika oraz ich sterownika. Schemat elektroniczny i projekt pcb został wykonany w programie KiCad. 
+
+Na powyższym zdjęciu widać zaprojektowaną ramę wraz z odpowiednio ustawionymi gotowymi modułami. 
+Moduły napędowe zaczepione są przy pomocy fabrycznego trzpienia wciskanego w ramę. 
+Takie rozwiązanie oznacza że napęd może obracać się w wokół własnej osi. Aby zapewnić stały i równomierny docisk koła do podłoża,
+napęd został połączony sprężyną z ramą. 
+
+\subsection{Elektronika sterująca robotem}
+Do bezprzewodowego sterowania robotem zostanie wykorzystany moduł ESP32, dla którego zostanie przygotowana odpowiednia płytka 
+z wyprowadzeniami do enkoderów silnika oraz ich sterownika. Schemat i projekt płytki drukowanej został wykonany w programie KiCad. 
 \begin{figure}[H]
 	\centering
-	\includegraphics[width=13cm]{pages/robot/zdjecia/kicad/schematCaly.png}
-	\caption{Ogólny schemat połączeń}
-	\label{Fig:Rysunek}
+	\includegraphics[width=18cm]{pages/robot/zdjecia/kicad/schematCaly.png}
+	\caption{Schemat połączeń pomiędzy modułami}
+	\label{Fig:schematKiCad}
 \end{figure}
-Wszystkie potrzebne elementy podsystemów mikroprocesora zostały już wlutowane w module deweloperskim,
-a więc mój schemat zawiera jedynie odpowiednie połączenia z modułami roboczymi.
-\begin{figure}[H]
-	\centering
-	\includegraphics[width=10cm]{pages/robot/zdjecia/kicad/schematZasilanie.png}
-	\caption{Ogólny schemat połączeń}
-	\label{Fig:Rysunek}
-\end{figure}
-Użyta bateria posiada napięcie maksymalne 16,8V a więc musi zostać odpowiednio zmniejszone przed podaniem go na piny zasilania. 
-Ze względu na wykorzystywaną łączność bezprzewodową a więc zwiększone zużycie prądu, zmniejszanie napięcia zostało podzielone na trzy sekcje. 
-Najpierw zmniejszane jest poprzez stabilizator LM7812 z 16.8V do 12V, a następnie poprzez LM7805 z 12V napięcie redukowane jest do 5V. 
-ESP32 zasilane jest napięciem 3.3V tworzonym poprzez stabilizator AMS1117 w module deweloperskim. 
-Aby zredukować spadki napięć powstałe przy nagłym poborze prądu dodałem dodatkowe kondensatory filtrujące. 
-Dodatkowo na schemacie widoczny jest dzielnik napięcia pozwalający na poziom naładowania baterii przez sterownik oraz programowalne diody świecące ws2812b,
-jednak ostatecznie nie zostały wykorzystane w projekcie.
-\begin{figure}[H]
-	\centering
-	\includegraphics[width=16cm]{pages/robot/zdjecia/kicad/schematSilniki.png}
-	\caption{Ogólny schemat połączeń silników}
-	\label{Fig:Rysunek}
-\end{figure}
+
+Przedstawiony powyżej schemat został podzielony na kilka sekcji. 
+Najbardziej rozbudowana jest sekcja zasilania, która poprzez dwa stabilizatory liniowe obniża napięcie z 16,8V do 5V. Mikroprocesor zasilany jest
+napięciem 3,3V przygotowanym przez układ wlutowany na płytce deweloperskiej. Każda linia zasilania filtrowana jest przez kondensator elektrolityczny 
+i ceramiczny, wynika to z dużego poboru prądu podczas komunikacji z WiFi. 
+
+Kolejny segment zawiera po dwa złącza na silnik. Jedno złącze służy do połączenia z silnikiem, zasilania i odbierania danych z enkodera.
+Drugie złącze służy do połączenia sterownika z silnikiem i dwoma kanałami PWM, pozwalającymi na płynne sterowanie kierunkiem i prędkością obrotową silnika.
+
+Trzeci segment zawiera świecące diody programowalne służące do sygnalizacji stanu robota. Zaletą wykorzystanych tych diod jest szeregowe połączenie 
+i bezpośrednie zasilanie z lini 5V. Ostatnia podłączona dioda jest na stałe i sygnalizuje podłączoną baterię.
+
+Ostatnia sekcja to połączenia pomiędzy modułem deweloperskim ESP32 a resztą układu. Mikroprocesor pracuje w logice 3,3V a sterownik silników 5V. 
+Mimo tego, nie są potrzebne żadne układy zamieniające poziomy napięć. 
+Dodatkowo obok wyprowadzeń modułu widać dodatkowe kondensatory filtrujące zasilanie. 
+ 
 Użyte moduły napędowe posiadają enkoder inkrementalny zbudowany z czujnika halla i tarczy magnetycznej zamocowanej na wale silnika.
-Czujnik halla jest zasilany napięciem 3.3V i na wyjściu otrzymujemy sygnał ze "szpilkami" proporcjonalny do aktualnych obrotów silnika. 
-Silniki zasilane są poprzez moduł z układem L298n, a prędkość ustalana jest poprzez odpowiednio generowany sygnał PWM. 
+Silniki sterowane są modułem z układem L298n, a prędkość ustalana jest poprzez odpowiednio generowany sygnał PWM.
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=10cm]{pages/robot/zdjecia/kicad/kiCad_PCB.png}
+	\caption{Projekt PCB}
+	\label{Fig:kiCadPCB}
+\end{figure}
+
+Na widocznym powyżej zdjęciu widać ostateczną wersje płytki drukowanej. Większość połączeń na płytce zrealizowana jest poprzez górną warstwę miedzi,
+jednak widać kilka ścieżek w dolnej warstwie.
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=10cm]{pages/robot/zdjecia/wykonanePCB.jpg}
+	\caption{Wykonana płytka}
+	\label{Fig:wykonanePCB}
+\end{figure}
+
+Płytka została wykonana na jednostronnym laminacie poprzez naniesienie utwardzalnej światłem UV maski. Pozostała nie utwardzona część maski 
+została zmyta w roztworze węglanu sodu. Tak przygotowana płytka została utwardzona w 40\% roztworze chlorku żelaza(|||). 
+Połączenia na dolnej warstwie zostały wykonane przy pomocy dodatkowych kabli. 
+
 \begin{figure}[H]
 	\centering
 	\includegraphics[width=10cm]{pages/robot/zdjecia/l298n_modul.jpg}
-	\caption{Wykorzystany moduł do sterowania silnikami, L298n}
-	\label{Fig:Rysunek}
+	\caption{Wykorzystany moduł do sterowania silnikami}
+	\label{Fig:modulL298}
 \end{figure}
-\begin{figure}[H]
-	\centering
-	\includegraphics[width=6cm]{pages/robot/zdjecia/kicad/kiCad_PCB.png}
-	\caption{Projekt PCB}
-	\label{Fig:Rysunek}
-\end{figure}
-Na widocznym powyżej zdjęciu widać ostateczną wersje projektu pcb.
+
+Wykonana płytka połączona jest z zewnętrznym dwukanałowym sterownikiem silników opartym na układzie L298n. 
+Sterownik maksymalnie po może obsłużyć silniki do 46V i 2A na kanał. Jego duża zaleta to praca w logice 5V 
+oraz zabezpieczenie przed niedozwolonymi stanami i nadmierną temperaturą. 
 
 
 \subsection{Oprogramowanie robota}
@@ -151,7 +163,7 @@ Całkowanie zrealizowane jest poprzez pomnożenie przez krok dyskretyzacji. Sta�
 Tak zaimplementowany regulator używany jest do wyznaczenia sygnału PWM, bezpośredniego sterującego układem L298n a ten silnikami. 
 
 \begin{lstlisting}[language=C++,caption=Wyznaczenie modulacji PWM,label={kodCPPPWM}]
-if(abs(setSpeed) - 1 > 0) // jezeli predkosc jest wieksza to pid jak nie to hamulec bo pwm=0
+if(abs(setSpeed) - 1 > 0)
 {
 	pidToPwm = (int) this->calcOutput(abs(this->getCalculatedEngineRadialSpeed()), abs(setSpeed));
 	if(setSpeed < 0)
@@ -186,7 +198,7 @@ Przed wysłanie nastaw do kontrolera pwm, te są obcinane do obsługiwanych zakr
 Po podłączeniu zasilania i uruchomieniu systemu robot oczekuje na polecenia wysłane do robota poprzez protokół internetowy TCP. Serwer został napisany w oparciu o bibliotekę ASIO, pozwalającą na asynchroniczną obsługę wejścia i wyjścia (w tym sieci).
 \begin{figure}[H]
 	\centering
-	\includegraphics[width=10cm]{pages/robot/zdjecia/schematASIO.jpg}
+	\includegraphics[width=10cm]{pages/robot/zdjecia/schematy/schematASIO.jpg}
 	\caption{Schemat biblioteki ASIO \cite{asio}}
 	\label{Fig:schematASIO}
 \end{figure}
@@ -197,7 +209,7 @@ Aby zapewnić jak najlepszy czas przetwarzania, kontekst uruchomiony jest w oddz
 
 \begin{figure}[H]
 	\centering
-	\includegraphics[width=6cm]{pages/robot/zdjecia/schematTCP.png}
+	\includegraphics[width=6cm]{pages/robot/zdjecia/schematy/schematTCP.png}
 	\caption{Schemat działania serwera TCP}
 	\label{Fig:schematSerweraTCP}
 \end{figure}
@@ -208,4 +220,4 @@ Na każdym aktywnym połączeniu prowadzony jest nasłuch, dzięki czemu możemy
 Klient wysyła polecenia w formie tekstowej, te przekazywane są do klasy systemowej odpowiednio interpretujące ich przeznaczenie.
 Jeżeli komenda tego wymaga (np. zwrócenie prędkości obrotowej silników) to dane są odsyłane do klienta w postaci tekstu i oddzielonych przerwą liczb. 
 
-% TODO: nawiązanie do serwera dhcp
+Należy pamiętać że podczas testowania i łączenia z różnymi sieciami, serwer dhcp będzie przydzielał różne adresy ip i należy to uwzględnić w programie łączącym się z robotem.
