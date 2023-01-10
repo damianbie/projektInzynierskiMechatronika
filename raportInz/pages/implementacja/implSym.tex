@@ -12,8 +12,8 @@ Dla logicznego podzielenia programu została napisana główna klasa programu o 
 Takie podejście pozwoliło na odseparowanie poszczególnych funkcji aplikacji. 
 W pierwszej kolejności konstruktor obiektu aplikacji, generuje okno, tworzy 
 graficzne elementy użytkownika oraz ustawia odpowiednie flagi informujące o stanie aplikacji. 
-Dalej wywoływana jest funkcja main wczytująca odpowiednią mapę z pliku a następnie uruchamiająca 
-główną pętle programu działającą w 60 klatkach na sekundę.
+Dalej wywoływana jest funkcja main wczytująca odpowiednią mapę z pliku, a następnie uruchamiająca 
+główną pętlę programu działającą w 60 klatkach na sekundę.
 
 \begin{figure}[H]
 	\centering
@@ -24,7 +24,7 @@ główną pętle programu działającą w 60 klatkach na sekundę.
 
 Aby uprościć sobie symulowanie różnych scenariuszy i rozmiarów map otoczenia, ta ładowana jest ze wskazanego w 
 programie pliku. Wskazany plik jest w formacie json i podzielony jest na dwie sekcje. 
-Pierwsza dostarcza informacje o samej mapie, natomiast druga o poruszającym się po niej robocie. 
+Pierwsza dostarcza informacji o samej mapie, natomiast druga o poruszającym się po niej robocie. 
 Sekcja mapy zawiera lokalizacje do pliku tekstowego z zapisanymi elementami. 
 
 \begin{lstlisting}[language=Python,caption=Uruchomienie aplikacji,label={kodPythonWczytanieMapy}]

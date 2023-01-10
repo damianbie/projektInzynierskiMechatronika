@@ -18,12 +18,12 @@ Wykorzystywana funkcja heurestyczna to równanie nr. \eqref{Eq:heuresticEucalide
 
 W kolejnym kroku uruchamiana jest pętla, która wykonywana jest dopóki
 w zbiorze otwartym znajdują się nie odwiedzone elementy. Z listy pobierany jest 
-element o najmniejszej liczbie punktów co oznacza że dany wierzchołek drzewa ma największe szanse być najlepszym rozwiązaniem.
-Jeżeli pobrany element nie jest celem to dalej pobierani są wszyscy jego sąsiedzi i pętla przechodzi po pobranych sąsiadach aktualnego punktu. 
-W tym rozwiązaniu dla zaoszczędzenia pamięci, symulator przechowuję tylko przeszkody.
+element o najmniejszej liczbie punktów co oznacza, że dany wierzchołek drzewa ma największe szanse być najlepszym rozwiązaniem.
+Jeżeli pobrany element nie jest celem to dalej pobierani i przetwarzani są wszyscy jego sąsiedzi. 
+W tym rozwiązaniu, dla zaoszczędzenia pamięci, symulator przechowuję tylko przeszkody.
 W związku z tym do pobrania sąsiadów używana jest specjalna funkcja sprawdzająca czy na mapie o wskazanych koordynatach istnieje punkt. 
-Jeżeli takowy obiekt nie istnieje to oznacza że algorytm może użyć tych współrzędnych do trasowania ścieżki. 
-Od tej części programu zależy czy algorytm ma wyznaczyć ścieżkę uwzględniając skoki po skosie.
+Jeżeli takowy obiekt nie istnieje to oznacza, że algorytm może użyć tych współrzędnych do trasowania ścieżki. 
+Od tej części programu zależy, czy algorytm ma wyznaczyć ścieżkę uwzględniając skoki po skosie.
 
 \begin{lstlisting}[language=Python,caption=Wyznaczenie kosztu ścieżki,label={kodPython2}]
 neighborNode = self._findNodeOnList(openList, newCords)
@@ -48,7 +48,7 @@ to jest tworzony i do niego dodawany. Zgodnie z założeniem całkowity koszt to
 Rzeczywisty koszt (funkcja $g(x)$) jest ustalony na sztywno i zależy od współrzędnych, do których skaczemy. 
 Jeżeli następny punkt jest na wprost to koszt wynosi 10.
 Jako iż przechodzimy po siatce z węzłami o stałej i równej odległości to koszt skoku do sąsiada po skosie został wyznaczony z twierdzenia Pitagorasa. 
-Należy zwrócić uwagę że jeżeli całkowity koszt jest mniejszy od aktualnego to węzeł ma ustawianego rodzica, ma to duże znaczenie w przypadku wyjścia z pętli 
+Należy zwrócić uwagę, że jeżeli całkowity koszt jest mniejszy od aktualnego to węzeł ma ustawianego rodzica, ma to duże znaczenie w przypadku wyjścia z pętli 
 i wyznaczenia najkrótszej trasy spośród wszystkich kosztów. 
 
 \begin{lstlisting}[language=Python,caption=Przygotowanie danych,label={kodPython3}]

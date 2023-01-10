@@ -8,7 +8,7 @@ Całość będzie sterowana przy pomocy mikroprocesora ESP32 oraz dwukanałowego
 Za zasilanie będzie odpowiadał litowo-jonowy akumulator 4S.
 
 \subsection{Projektowanie zarysu robota w środowisku CAD}
-Robot ma być prosty w budowie i wykonaniu a więc założyłem że podstawa utrzymujące pozostałe komponenty
+Robot ma być prosty w budowie i wykonaniu, a więc założyłem, że podstawa utrzymujące pozostałe komponenty
 zostanie wydrukowana na drukarce 3D. Model platformy i pozostałych posiadanych elementów został wykonany w programie Fusion 360.
 Modele modułów napędowych, przedniego kółka oraz baterii pozwoliły na optymalne wyznaczenie pod względem wielkości lokalizacji wszystkich elementów.
 
@@ -45,7 +45,7 @@ z wyprowadzeniami do enkoderów silnika oraz ich sterownika. Schemat elektronicz
 	\caption{Ogólny schemat połączeń}
 	\label{Fig:Rysunek}
 \end{figure}
-Wszystkie potrzebne elementy podsystemów mikroprocesora zostały już wlutowane w module deweloperskim
+Wszystkie potrzebne elementy podsystemów mikroprocesora zostały już wlutowane w module deweloperskim,
 a więc mój schemat zawiera jedynie odpowiednie połączenia z modułami roboczymi.
 \begin{figure}[H]
 	\centering
@@ -55,7 +55,7 @@ a więc mój schemat zawiera jedynie odpowiednie połączenia z modułami robocz
 \end{figure}
 Użyta bateria posiada napięcie maksymalne 16,8V a więc musi zostać odpowiednio zmniejszone przed podaniem go na piny zasilania. 
 Ze względu na wykorzystywaną łączność bezprzewodową a więc zwiększone zużycie prądu, zmniejszanie napięcia zostało podzielone na trzy sekcje. 
-Najpierw zmniejszane jest poprzez stabilizator LM7812 z 16.8V do 12V a następnie poprzez LM7805 z 12V napięcie redukowane jest do 5V. 
+Najpierw zmniejszane jest poprzez stabilizator LM7812 z 16.8V do 12V, a następnie poprzez LM7805 z 12V napięcie redukowane jest do 5V. 
 ESP32 zasilane jest napięciem 3.3V tworzonym poprzez stabilizator AMS1117 w module deweloperskim. 
 Aby zredukować spadki napięć powstałe przy nagłym poborze prądu dodałem dodatkowe kondensatory filtrujące. 
 Dodatkowo na schemacie widoczny jest dzielnik napięcia pozwalający na poziom naładowania baterii przez sterownik oraz programowalne diody świecące ws2812b,
@@ -68,7 +68,7 @@ jednak ostatecznie nie zostały wykorzystane w projekcie.
 \end{figure}
 Użyte moduły napędowe posiadają enkoder inkrementalny zbudowany z czujnika halla i tarczy magnetycznej zamocowanej na wale silnika.
 Czujnik halla jest zasilany napięciem 3.3V i na wyjściu otrzymujemy sygnał ze "szpilkami" proporcjonalny do aktualnych obrotów silnika. 
-Silniki zasilane są poprzez moduł z układem L298n a prędkość ustalana jest poprzez odpowiednio generowany sygnał PWM. 
+Silniki zasilane są poprzez moduł z układem L298n, a prędkość ustalana jest poprzez odpowiednio generowany sygnał PWM. 
 \begin{figure}[H]
 	\centering
 	\includegraphics[width=10cm]{pages/robot/zdjecia/l298n_modul.jpg}
@@ -105,7 +105,7 @@ system czasu rzeczywistego FreeRTOS i ASIO do obsługi połączenia TCP.
 
 Działanie programu rozpoczyna się od wywołania funkcji app\_main, inicjalizacji funkcji systemowych i sterowników silników.
 W dalszej kolejności nawiązywana jest łączność z siecią WiFi. W przypadku braku połączenia system resetuje się. 
-Po poprawnym połączeniu uruchamiany jest kontekst biblioteki ASIO a następnie uruchomienie serwera TCP.
+Po poprawnym połączeniu uruchamiany jest kontekst biblioteki ASIO, a następnie uruchomienie serwera TCP.
 Klienci po połączeniu do utworzonego serwera wysyłają komendy tekstowe wraz z odpowiednimi argumentami, które
 robot odpowiednio przetwarza. 
 
@@ -113,7 +113,7 @@ robot odpowiednio przetwarza.
 Sterowanie silnikami odbywa się poprzez klasę MotorController, która dziedziczy po klasie PIDController implementującej regulator PID.
 Obiekt automatycznie tworzy timer uruchamiający co 100ms metodę aktualizującą wyjścia sterujące silnikiem. 
 Aktualna prędkość wyznaczana jest na podstawie przerwania wyzwalanego przez enkoder silnika. Przerwanie inkrementuje licznik, 
-czyszczony przez wcześniej opisany timer. Nastawy regulatora PID zostały dobrane eksperymentalinie, człon proporcjonalny wynosi 8 a całkujący i różniczkujący 0,1. 
+czyszczony przez wcześniej opisany timer. Nastawy regulatora PID zostały dobrane eksperymentalnie, człon proporcjonalny wynosi 8 a całkujący i różniczkujący 0,1. 
 Regulator PID możemy opisać przy pomocy wzoru:
 
 \begin{equation}
