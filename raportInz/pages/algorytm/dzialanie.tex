@@ -41,5 +41,34 @@ Wady:
 \end{itemize}
 Gdzie: $x_1$ i $y_1$ to współrzędne wyznaczanego punktu, $x_2$ i $y_2$ to koordynaty celu
 
-
-%TODO: cos o innych algorytmach np. skanowaine otoczenia lidarem
+\subsection{Analiza innych algorytmów}
+\begin{itemize}
+	\item{ \textbf{RRT(Rapidly-exploring random tree)}\cite{RRTLec} - to algorytm generujący i łączący 
+	losowe punkty w przestrzeni. Z każdym wygenerowanym wierzchołkiem sprawdzane jest czy ten omija przeszkody.
+	Jego działanie kończy się gdy węzeł jest wygenerowany we wskazanym regionie lub zostanie osiągnięty limit.
+	Jego zalety to:
+		\begin{itemize}
+			\item Balans pomiędzy zachłannością a eksploracją
+			\item prosty i szybki w implementacji
+			\item Zbiega się z rozkładem próbkowania
+		\end{itemize}
+	Jego wady:
+		\begin{itemize}
+			\item jest czuły na metrykę
+			\item duża złożoność obliczeniowa
+		\end{itemize}
+	}g
+	\item{\textbf{SLAM(Simultaneous localization and mapping)} \cite{SLAMMat} - jest metodą używaną w autonomicznych 
+	pojazdach. Pozwana na zbudowanie oraz lokalizacje pojazdu względem otoczenia na mapie. Algorytm ten nie wyznacza bezpośrednio
+	ścieżki omijającej przeszkody jednak w praktyce jest ważnym elementem takiego systemu. Każdy ruch robota w rzeczywistym 
+	środowisku jak i sama mapa obarczona jest pewnym błędem powodującym że robot jest w innym miejscu niż zakładamy. 
+	Możemy wyróżnić działanie algorytmu w oparciu o lidary albo o metody wizyjne. Wadą metody jest wysoki koszt obliczeniowy 
+	i narastający z czasem błąd pozycji co w konsekwencji może spowodować utratę pozycji.
+	\begin{figure}[H]
+		\centering
+		\includegraphics[width=10cm]{pages/algorytm/zdjecia/slam.jpg}
+		\caption{Przykład mapowania metodą SLAM\cite{SLAMMat}}
+		\label{fig:Rys}
+	\end{figure}
+	}
+\end{itemize}
