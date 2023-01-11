@@ -6,7 +6,7 @@ import pygame_gui as pgg
 class App:
     def __init__(self):
         pg.init()
-        self._res = (800, 600)
+        self._res = (800, 400)
         self._wnd = pg.display.set_mode(self._res)
         pg.display.set_caption("RobocikKontroller")
         
@@ -16,7 +16,7 @@ class App:
         self._robotSocketFlag   = False
         
         self._guiManager        = pgg.UIManager(self._res)
-        self._uiControlsPanel   = pgg.elements.UIPanel(relative_rect=pg.Rect((0, 0), (400, 600)), manager=self._guiManager, starting_layer_height=0)
+        self._uiControlsPanel   = pgg.elements.UIPanel(relative_rect=pg.Rect((0, 0), (400, 400)), manager=self._guiManager, starting_layer_height=0)
         
         self._btnLeft           = pgg.elements.UIButton(relative_rect=pg.Rect((25, 60), (120, 40)), manager=self._guiManager, text="lewo", container=self._uiControlsPanel)
         self._btnForward        = pgg.elements.UIButton(relative_rect=pg.Rect((145, 10), (120, 40)), manager=self._guiManager, text="Do przodu", container=self._uiControlsPanel)
@@ -24,12 +24,12 @@ class App:
         self._btnBackward       = pgg.elements.UIButton(relative_rect=pg.Rect((135, 110), (120, 40)), manager=self._guiManager, text="Do tyłu", container=self._uiControlsPanel)
         self._btnStop           = pgg.elements.UIButton(relative_rect=pg.Rect((157, 60), (80, 40)), manager=self._guiManager, text="Stop", container=self._uiControlsPanel)
         
-        self._textRobotIp       = pgg.elements.UITextEntryBox(relative_rect=pg.Rect((20, 300), (340, 40),), manager=self._guiManager, container=self._uiControlsPanel, initial_text=self._robotIp)
-        self._textRobotPort     = pgg.elements.UITextEntryBox(relative_rect=pg.Rect((20, 380), (340, 40),), manager=self._guiManager, container=self._uiControlsPanel, initial_text=self._robotPort)
-        self._btnConnect        = pgg.elements.UIButton(relative_rect=pg.Rect((20, 430), (200, 40)), manager=self._guiManager, text="Polacz robota", container=self._uiControlsPanel)
+        self._textRobotIp       = pgg.elements.UITextEntryBox(relative_rect=pg.Rect((20, 200), (340, 40),), manager=self._guiManager, container=self._uiControlsPanel, initial_text=self._robotIp)
+        self._textRobotPort     = pgg.elements.UITextEntryBox(relative_rect=pg.Rect((20, 280), (340, 40),), manager=self._guiManager, container=self._uiControlsPanel, initial_text=self._robotPort)
+        self._btnConnect        = pgg.elements.UIButton(relative_rect=pg.Rect((20, 330), (200, 40)), manager=self._guiManager, text="Polacz robota", container=self._uiControlsPanel)
         
         
-        self._uiParamsPanel     = pgg.elements.UIPanel(relative_rect=pg.Rect((400, 0), (400, 600)), manager=self._guiManager, starting_layer_height=0)
+        self._uiParamsPanel     = pgg.elements.UIPanel(relative_rect=pg.Rect((400, 0), (400, 400)), manager=self._guiManager, starting_layer_height=0)
 
             
     def _connectWithRobot(self):

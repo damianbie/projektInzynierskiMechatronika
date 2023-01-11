@@ -214,7 +214,7 @@ class App:
             
     def main(self):     
         bg = 0, 0, 0
-        (self.map, self.robot) = MapLoader.fromJson("maps/m05.json")
+        (self.map, self.robot) = MapLoader.fromJson("maps/m06.json")
 
         self._recalcWindowSize()
         mainClock = pygame.time.Clock()

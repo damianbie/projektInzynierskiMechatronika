@@ -30,16 +30,22 @@ Wady:
 \begin{itemize}
 	\item Funkcja euklidesowa
 	      \begin{equation}
-	      	h(x)= 10 * \sqrt[2]{(x_1 - x_2)^2 + (y_1 - y_2)^2}
+	      	h(x) = K * \sqrt[2]{(x_1 - x_2)^2 + (y_1 - y_2)^2}
 	      	\label{Eq:heuresticEucalides}
 	      \end{equation}
-	\item Geometria Manhattanu (innaczej metryka miejska)
+	\item Geometria Manhattanu (inaczej metryka miejska)
 	      \begin{equation}
-	      	h(x)= |x_2 - x_1| + |y_2 - y_1|
+	      	h(x) = |x_2 - x_1| + |y_2 - y_1|
 	      	\label{Eq:heuresticManhattanu}
 	      \end{equation}
+	\item Odległość oktylowa
+		\begin{equation}
+			h(x) = D1 * (|x_1 - x_2| + |y_1 - y_2|) + (D2 - 2*D1) * min(|x_1 - x_2|, |y_1 - y_2|)
+			\label{Eq:heuresticOctileDistance}
+		\end{equation}
+
 \end{itemize}
-Gdzie: $x_1$ i $y_1$ to współrzędne wyznaczanego punktu, $x_2$ i $y_2$ to koordynaty celu
+Gdzie: $x_1$ i $y_1$ to współrzędne wyznaczanego punktu, $x_2$ i $y_2$ to koordynaty celu, $K$ - oznacza wzmocnienie, $D1$ - koszt skoku na wprost, $D2$ - koszt skoku po przekątnej
 
 \subsection{Analiza innych algorytmów}
 \begin{itemize}
@@ -68,7 +74,6 @@ Gdzie: $x_1$ i $y_1$ to współrzędne wyznaczanego punktu, $x_2$ i $y_2$ to koo
 		\centering
 		\includegraphics[width=10cm]{pages/algorytm/zdjecia/slam.jpg}
 		\caption{Przykład mapowania metodą SLAM\cite{SLAMMat}}
-		\label{fig:Rys}
 	\end{figure}
 	}
 \end{itemize}

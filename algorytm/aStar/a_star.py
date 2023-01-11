@@ -29,8 +29,13 @@ class AStar:
         return None
         
     def heurestic(self, cCord, endCord):
-        delta =  (abs(cCord[0] - endCord[0]), abs(cCord[1] - endCord[1]))
-        return 10 * math.sqrt(delta[0]**2 + delta[1]**2 )
+        
+        d =  (abs(cCord[0] - endCord[0]), abs(cCord[1] - endCord[1]))
+        # return d[0] + d[1]
+        
+        return 1.41 * math.sqrt(d[0]**2 + d[1]**2 )
+    
+        # return 1 * (d[0] + d[1]) + (1.41 - 2) * min(d[0], d[1])
 
     def findPath2(self, startNode, endNode):
         # kierunki skoków
@@ -83,8 +88,10 @@ class AStar:
                         if normalNeighbors[3] or normalNeighbors[0]:
                             continue
                 
-                if indx >= 4: COST = 14.14
-                else: COST = 10
+                # if indx >= 4: COST = 14.14
+                # else: COST = 10
+                if indx >= 4: COST = 1.41
+                else: COST = 1
                 
                 neighborNode = self._findNodeOnList(openList, newCords)
                 if neighborNode is None:

@@ -6,7 +6,7 @@ import sys
 import errno
 import keyboard
 
-HOST = "192.168.0.100"  # The server's hostname or IP address
+HOST = "192.168.0.104"  # The server's hostname or IP address
 PORT = 3333  # The port used by the server
 MAX_BYTE = 1024
 
