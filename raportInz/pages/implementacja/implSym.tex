@@ -22,7 +22,7 @@ główną pętlę programu działającą w 60 klatkach na sekundę.
 	\label{fig:schematPetliGlownej}
 \end{figure}
 
-Aby uprościć sobie symulowanie różnych scenariuszy i rozmiarów map otoczenia, ta ładowana jest ze wskazanego w 
+Aby uprościć symulowanie różnych scenariuszy i rozmiarów map otoczenia, ta ładowana jest ze wskazanego w 
 programie pliku. Wskazany plik jest w formacie json i podzielony jest na dwie sekcje. 
 Pierwsza dostarcza informacji o samej mapie, natomiast druga o poruszającym się po niej robocie. 
 Sekcja mapy zawiera lokalizacje do pliku tekstowego z zapisanymi elementami. 
@@ -84,12 +84,12 @@ Jeżeli na początku aktualizacji indeks jest ujemny to robot przejechał po ca�
 % polaczenie z robotem po tcp
 
 Po wyznaczeniu ścieżki symulator na polecenie użytkownika może połączyć się ze zbudowanym robotem aby ten osiągnął założony cel.
-Zgodnie ze schematem \cite{sch:ogolnyRozwiazania} robot po połączeniu z siecią WiFi i utworzeniu serwera TCP oczekuje na wysyłane komendy.
+Zgodnie ze schematem \ref{sch:ogolnyRozwiazania} robot po połączeniu z siecią WiFi i utworzeniu serwera TCP oczekuje na wysyłane komendy.
 Aplikacja podczas uruchamiania, tworzy gniazdo, które potem zostanie wykorzystane do połączenia. 
 \begin{lstlisting}[language=Python,caption=Utworzone gniazdo,label={kodPythonGniazdo}]
 self._robotSocket       = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 \end{lstlisting}
-Dla zwiększenia elastyczności utworzone są dwa pola tekstowe pozwalające na wprowadzenie adresu ip oraz portu z uruchomionym serwerem.
+Dla zwiększenia elastyczności utworzone zostały dwa pola tekstowe pozwalające na wprowadzenie adresu ip oraz portu z uruchomionym serwerem.
 Po wprowadzeniu wymaganych danych operator może spróbować nawiązać połączenie z robotem poprzez specjalny przycisk.
 
 
@@ -131,14 +131,10 @@ def _sendCommandToRobot(self, cmd):
         self._robotSocketFlag = False
         return
 \end{lstlisting}
-Program może wysłać dowolną komendę robota poprzez metodę sendCommandToRobot. 
+Program może wysłać dowolną komendę poprzez metodę sendCommandToRobot. 
 Podobnie jak przy połączeniu, metoda wysyłająca dane może rzucić wyjątek o braku połączenia. W takim przypadku
 wyświetlana jest odpowiednia informacja i resetowana jest flaga połączenia. 
 
-
-% TODO: tu kiedys o wysyłanych komendach ze sciezka
-
-% TODO: zdjecie z calego program, efekt
 \textbf{Finalna wersja programu}
 
 Na poniższym zrzucie widać uruchomiony program z trwającą symulacją. Po prawej stronie został umieszczony panel 

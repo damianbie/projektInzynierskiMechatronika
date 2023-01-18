@@ -2,8 +2,8 @@
 
 \textbf{Implementacja algorytmu i symulatora}
 
-Analizując wyniki otrzymane podczas testowania algorytmu możemy zauważyć że algorytm poprawnie wyznacza 
-najkrótszą możliwą ścieżkę. Podczas testów sprawdzono wpływ różnych funkcji heurestycznych na otrzymaną ścieżkę.
+Analizując wyniki otrzymane podczas testowania algorytmu możemy zauważyć że wyznaczona 
+ścieżkę jest optymalna. Podczas testów sprawdzono wpływ różnych funkcji heurestycznych na otrzymaną ścieżkę.
 Na ich podstawie widać że takie funkcje mają duże znaczenie i w zależności od skomplikowania
 otoczenia, odległości oraz dostępnych ruchów(możliwość przejścia po przekątnej) otrzymujemy ścieżki o różnym poziomie skomplikowania.
 Zaimplementowanie algorytmu w pythonie pozwoliło na szybkie i sprawne jego przetestowanie, jednak w przypadku dużych i skomplikowanych map 
@@ -12,8 +12,7 @@ ciągłe przeszukiwanie tablicy z przeszkodami. Można to naprawić poprzez wyge
 najpotrzebniejszymi informacjami przed uruchomieniem algorytmu, dzięki czemu zredukuje się liczba niepotrzebnych wywołań funkcji.
 
 Równocześnie została potwierdzona teza z literatury, mówiąca o prostocie algorytmu a co za tym idzie możliwości
-stosowania go w różnych zastosowaniach między innymi do wyznaczania ścieżki w sieciach komputerowych co umożliwia 
-implementacje komunikacji na mikrokontrolerach pracujących w rozwiązaniach IOT. 
+stosowania go w różnych zastosowaniach między innymi do wyznaczania ścieżki w sieciach komputerowych.
 
 \textbf{Budowa robota}
 
@@ -24,6 +23,6 @@ działania algorytmu na robocie, ponieważ uszkodzeniu uległ główny sterownik
 sterownika do silników i pojawienia się na liniach sygnałowych napięcia większego niż 3,3V. 
 
 Należy pamiętać że w prawdziwym autonomicznym robocie (na przykład przewożącym towar w magazynie) sam algorytm wyznaczający trasę nie będzie wystarczający. 
-Algorytm bazuje na mapie otoczenia a w praktyce ta będzie się bardzo często zmieniać więc najlepiej aby robot sam skanował otoczenie
+Algorytm bazuje na mapie otoczenia a w praktyce ta będzie się bardzo często zmieniać więc najlepiej aby ten sam skanował otoczenie
 i dynamicznie dobierał optymalne rozwiązanie. Finalnie duży wpływ na czas przejazdu będzie miała heurestyka, krótsza trasa z dużą ilością skrętów może mieć 
 większy czas przejazdu niż potencjalnie dłuższa, na której robot może osiągnąć prędkość maksymalną. 

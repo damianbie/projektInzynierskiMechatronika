@@ -19,8 +19,8 @@ Wykonane modele modułów napędowych, przedniego kółka oraz baterii pozwolił
 	\label{Fig:robotModelRama}
 \end{figure}
 
-Model został przygotowany w programie Ultimaker Cura i wydrukowane z filamentu PLA.
-Temperatur głowicy wynosiła 220$ ^\circ C$ a stołu 60$ ^\circ C$. Aby przyśpieszyć wydruk wysokość warstwy została ustawiona na 0,2mm. 
+Model został przygotowany w programie Ultimaker Cura i wydrukowany z filamentu PLA.
+Temperatur głowicy wynosiła 220$ ^\circ C$ a stołu 60$ ^\circ C$. Aby przyśpieszyć wydruk, wysokość warstwy została ustawiona na 0,2mm. 
 Żeby zwiększyć wytrzymałość i lepiej zgrzać warstwy, temperatura głowicy została lekko zawyżona względem wymagań producenta filamentu,
 a model posiada dwa dodatkowe wsporniki wzdłuż platformy.
 
@@ -51,13 +51,13 @@ Najbardziej rozbudowana jest sekcja zasilania, która poprzez dwa stabilizatory 
 napięciem 3,3V przygotowanym przez układ wlutowany na płytce deweloperskiej. Każda linia zasilania filtrowana jest przez kondensator elektrolityczny 
 i ceramiczny, wynika to z dużego poboru prądu podczas komunikacji z WiFi. 
 
-Kolejny segment zawiera po dwa złącza na silnik. Jedno złącze służy do połączenia z silnikiem, zasilania i odbierania danych z enkodera.
+Kolejny segment zawiera po dwa złącza na silnik. Pierwsze złącze służy do połączenia z silnikiem, zasilania i odbierania danych z enkodera.
 Drugie złącze służy do połączenia sterownika z silnikiem i dwoma kanałami PWM, pozwalającymi na płynne sterowanie kierunkiem i prędkością obrotową silnika.
 
 Trzeci segment zawiera świecące diody programowalne służące do sygnalizacji stanu robota. Zaletą wykorzystanych tych diod jest szeregowe połączenie 
 i bezpośrednie zasilanie z lini 5V. Ostatnia podłączona dioda jest na stałe i sygnalizuje podłączoną baterię.
 
-Ostatnia sekcja to połączenia pomiędzy modułem deweloperskim ESP32 a resztą układu. Mikroprocesor pracuje w logice 3,3V a sterownik silników 5V. 
+Ostatnia sekcja, to połączenia pomiędzy modułem deweloperskim ESP32 a resztą układu. Mikroprocesor pracuje w logice 3,3V a sterownik silników 5V. 
 Mimo tego, nie są potrzebne żadne układy zamieniające poziomy napięć. 
 Dodatkowo obok wyprowadzeń modułu widać dodatkowe kondensatory filtrujące zasilanie. 
  
@@ -81,7 +81,7 @@ jednak widać kilka ścieżek w dolnej warstwie.
 \end{figure}
 
 Płytka została wykonana na jednostronnym laminacie poprzez naniesienie utwardzalnej światłem UV maski. Pozostała nie utwardzona część maski 
-została zmyta w roztworze węglanu sodu. Tak przygotowana płytka została utwardzona w 40\% roztworze chlorku żelaza(|||). 
+została zmyta w roztworze węglanu sodu. Tak przygotowana płytka została wytrawiona w 40\% roztworze chlorku żelaza(|||). 
 Połączenia na dolnej warstwie zostały wykonane przy pomocy dodatkowych kabli. 
 
 \begin{figure}[H]
@@ -92,14 +92,14 @@ Połączenia na dolnej warstwie zostały wykonane przy pomocy dodatkowych kabli.
 \end{figure}
 
 Wykonana płytka połączona jest z zewnętrznym dwukanałowym sterownikiem silników opartym na układzie L298n. 
-Sterownik maksymalnie po może obsłużyć silniki do 46V i 2A na kanał. Jego duża zaleta to praca w logice 5V 
+Sterownik maksymalnie może obsłużyć silniki do 46V i 2A. Jego dużą zaletą jest praca w 5V logice
 oraz zabezpieczenie przed niedozwolonymi stanami i nadmierną temperaturą. 
 
 
 \subsection{Oprogramowanie robota}
 
-Program sterujący robotem został napisany w C++. 
-Szkielet aplikacji bazuje na projekcie utworzonym przez framework IDF w wersji 4.4 udostępnionym 
+Program sterujący robotem został napisany w C++,
+a szkielet aplikacji bazuje na projekcie utworzonym przez framework IDF w wersji 4.4 udostępnionym 
 przez producenta użytego procesora. Po za tym użyta została biblioteka implementująca 
 system czasu rzeczywistego FreeRTOS i ASIO do obsługi połączenia TCP. 
 \begin{figure}[H]
@@ -135,10 +135,10 @@ Regulator PID możemy opisać przy pomocy wzoru:
 Gdzie: $e(x)$ -- jest błędem; P,I,D -- to stałe odpowiednio członu proporcjonalnego, całkującego i różniczkującego
 
 \begin{equation}
-	e(x) = y_nast(x) - y_aktu(x)
+	e(x) = y_{nast}(x) - y_{aktu}(x)
 	\label{Eq:blad}
 \end{equation}
-Gdzie: $y_nast(x)$ -- to nastawa regulatora, $y_aktu(x)$ -- jest rzeczywistą zmierzoną wartością
+Gdzie: $y_{nast}(x)$ -- to nastawa regulatora, $y_{aktu}(x)$ -- jest rzeczywistą zmierzoną wartością
  
 Powyżej przedstawiony regulator został zaimplementowany w funkcji calcOutput klasy PIDController.
 
@@ -157,7 +157,7 @@ float PIDController::calcOutput(float current, float set)
 }
 \end{lstlisting}
 
-Do wyznaczenia części różniczkującej potrzebna wartość błędu z poprzedniego wywołania pętli a ta zapisywana jest do zmiennej prywatnej klasy lastValue. 
+Do wyznaczenia części różniczkującej potrzebna jest wartość błędu z poprzedniego wywołania pętli, a ta zapisywana jest do zmiennej prywatnej klasy lastValue. 
 Całkowanie zrealizowane jest poprzez pomnożenie przez krok dyskretyzacji. Stałe regulatora ustawiane są poprzez wywołanie konstruktora klasy.
 
 Tak zaimplementowany regulator używany jest do wyznaczenia sygnału PWM, bezpośredniego sterującego układem L298n a ten silnikami. 
@@ -190,8 +190,8 @@ ledc_update_duty(LEDC_LOW_SPEED_MODE, this->_chanels[(pwmCh==0)?1:0]);
 W pierwszej kolejności sprawdzana jest zadana prędkość, jeżeli ta jest zbyt niska to na piny wystawiane są bezpośrednio stany niskie.
 Jeżeli ustawiona prędkość jest poprawna to wyznaczamy wyjście regulatora. Sterowanie kierunkiem obrotów odbywa 
 się poprzez znak zadanej prędkości a więc regulator otrzymuje wartości bezwzględne. 
-Wyjście regulatora PID sumowane jest z aktualną nastawą. Wyjścia pwm skonfigurowane są w częstotliwości 5kHz i rozdzielczości 13bitów. 
-Przed wysłanie nastaw do kontrolera pwm, te są obcinane do obsługiwanych zakresów (tj. 0 - 8192).
+Wyjście regulatora PID sumowane jest z aktualną nastawą. Wyjścia pwm skonfigurowane są z częstotliwością 5kHz i rozdzielczością 13bitów. 
+Przed wysłaniem nastaw do kontrolera pwm, te są obcinane do obsługiwanych zakresów (tj. 0 - 8192).
 
 \subsubsection{Serwer TCP}
 

@@ -1,1 +1,36 @@
 \subsection{Przegląd istniejących rozwiązań}
+
+Przeglądając dostępną literature opisującą algorytmy wyszukiwania najkrótszej ścieżki
+możemy zauważyć pewien nie jawny podział. Pierwsza grupa artykułów skupia się na implementacji 
+algorytmu, sprawdzeniu różnych funkcji heurestycznej i porównaniu szybkości wyznaczania trasy w 
+zależności od liczby węzłów w mapie. Druga grupa artykułów przedstawia bardziej ogólne zastosowania 
+algorytmów takich jak A* w różnych dziedzinach przemysłu.
+
+
+Pierwszy artykuł pt. "Path planning with modified A star algorithm for a mobile robot"\cite{art1}
+przedstawia różne algorytmy do planowania ścieżki mobilnego robota, ich implementacje oraz przeprowadzone eksperymenty.
+Autorzy zwracają uwagę na to że roboty przede wszystkim pracują wewnątrz budynków i mogą być zmuszone
+do budowania mapy środowiska w trackie pracy przy pomocy metod SLAM. Do dynamicznej orientacji i generowania mapy można
+wykorzystać istniejące projekty takie jak openSLAM\cite{openSLAM} lub HectorSLAM\cite{hectorSLAM} używanym przez ROS.
+Jeżeli robot nie posiada żadnej mapy środowiska to musi bazować tylko i wyłącznie na swoich wewnętrznych czujnikach 
+co nazywa się nawigacją reaktywną. Do oceny algorytmów wykorzystano kryteria takie jak: czas obliczeń, długość wygenerowanej ścieżki,
+liczbę odwiedzonych wierzchołków i symetrię badanego środowiska. 
+Eksperymenty zostały przeprowadzone w rzeczywistym środowisku i mapie wygenerowanej przez laserowy lidar robota przy pomocy wcześniej wspomnianych metod SLAM.
+Z pierwszego podsumowania wynika że najlepszym algorytmem jest JPS(A*), który jest najszybszy i odwiedził najmniej 
+niepotrzebnych wierzchołków. Drugi najlepszy wynik miał 10x dłuższy czas wykonania i dotyczył niezmodyfikowanej wersji algorytmu A*.
+Podsumowując wyniki eksperymentów najszybszym algorytmem był JPS(A*) jednak ten wyznaczał dłuższe ścieżki. 
+Autorzy zwracają uwagę że wybór algorytmu zależy od tego czy wymagany jest mały czas obliczeń czy najkrótsza wyznaczona ścieżka.
+
+
+Spora część artykułów skupia się na zaletach i potencjalnych różnych zastosowaniach algorytmu A*. Jednym z nieoczywistych 
+zastosowań wskazanych w analizowanych artykułach jest przyśpieszenie analizy składniowej bez kontekstowych gramatyk probabilistycznych.
+W przeciwieństwie do niektórych metod PCFG, algorytm A* zawsze zwróci drzewo o maksymalnym możliwym prawdopodobieństwie. \cite{parsowanieA}
+
+Ponad to algorytm A* jest bardzo popularny w różnego rodzaju literaturze dotyczącej gier komputerowych i sztucznej inteligencji. 
+Dzięki niemu możemy w dosyć prosty sposób określić ruch sztucznych obiektów w budowanej grze a dzięki prostocie 
+i szybkości działania, algorytm nie będzie powodował dużego narzutu obliczeniowego na pozostały proces programu\cite{aStarGame}.
+
+Ze względu na prostotę, jest często wykorzystywany w urządzeniach IOT, które mają szczególne wymagania co do niskiego 
+zużycia energi a więc cechują się niskimi osiągami procesora. Algorytm wykorzystywany jest między innymi w protokołach 
+wyznaczających kolejne routery w sieciach komputerowych\cite{aStarIOT}. Jednym z takich protokołów jest RIP,
+który wyznacza trasę na podstawie wektora odległości. 
