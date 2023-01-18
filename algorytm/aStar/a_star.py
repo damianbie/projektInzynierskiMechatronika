@@ -33,7 +33,7 @@ class AStar:
         d =  (abs(cCord[0] - endCord[0]), abs(cCord[1] - endCord[1]))
         # return d[0] + d[1]
         
-        return 1.41 * math.sqrt(d[0]**2 + d[1]**2 )
+        return 10 * math.sqrt(d[0]**2 + d[1]**2 )
     
         # return 1 * (d[0] + d[1]) + (1.41 - 2) * min(d[0], d[1])
 
